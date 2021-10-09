@@ -26,4 +26,11 @@ jobs:
       with:
         rules: '/lint/rules/changelog.js'
         config: '/lint/config/changelog.yml'
-        args: './*.md'
+        args: './CHANGELOG.md'
+
+    - name: Lint other markdown files
+      uses: docker://avtodev/markdown-lint:v1 # fastest way
+      with:
+        args: './CHANGELOG.md'
+        ignore: './CHANGELOG.md'
+
