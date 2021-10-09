@@ -6,4 +6,4 @@
 
 - Initial version
 
-- Two containers: `client` and `resolver`. The client issues a DNS request and the resolver resolves them.
+- Two containers: `client` and `resolver`. The client issues a DNS request and the resolver resolves them
