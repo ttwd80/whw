@@ -31,7 +31,7 @@ jobs:
       - name: Lint other markdown files
         uses: avto-dev/markdown-lint@v1.5.0
         with:
-          config: './.github/workflows/markdown_lint_config.yml'
+          config: './.github/workflows/config/markdown_lint_config.yml'
           args: './*.md'
           ignore: './CHANGELOG.md'
 
