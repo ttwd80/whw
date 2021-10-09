@@ -31,6 +31,6 @@ jobs:
     - name: Lint other markdown files
       uses: docker://avtodev/markdown-lint:v1 # fastest way
       with:
-        args: './CHANGELOG.md'
+        args: './*.md'
         ignore: './CHANGELOG.md'
 
