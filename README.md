@@ -12,7 +12,8 @@ What happens when
 
 1. Start the containers by running `docker-compose up --build && docker-compose down`.
 
-2. The last line should say `docker-resolver-1  |  * Starting domain name service... named            [ OK ]`.
+2. The last line should say
+`docker-resolver-1  |  * Starting domain name service... named            [ OK ]`.
 
 3. Open a new terminal window and run `docker exec -it docker-resolver-1 /bin/bash`.
 
