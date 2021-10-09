@@ -17,7 +17,7 @@ What happens when
 
 3. Open a new terminal window and run `docker exec -it docker-resolver-1 /bin/sh`.
 
-4. Run the command `tcpdump udp`.
+4. Run the command `tcpdump -n udp`.
 
 5. Open a new terminal window and run `docker exec -it docker-client-1 /bin/sh`.
 

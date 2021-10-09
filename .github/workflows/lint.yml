@@ -14,18 +14,12 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
-  lint:
-    name: Lint yaml and markdown files
+  lint_markdown:
+    name: Lint markdown files
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-
-      - name: Yamllint Github Action
-        uses: karancode/yamllint-github-action@v2.0.0
-        with:
-          yamllint_strict: true
-          yamllint_comment: true
 
       - name: Lint changelog file
         uses: avto-dev/markdown-lint@v1.5.0
@@ -37,6 +31,18 @@ jobs:
       - name: Lint other markdown files
         uses: avto-dev/markdown-lint@v1.5.0
         with:
-          config: './.github/workflows/markdown_lint_config.yml'
+          config: './.github/workflows/config/markdown_lint_config.yml'
           args: './*.md'
           ignore: './CHANGELOG.md'
+
+  lint_yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Yamllint Github Action
+        uses: karancode/yamllint-github-action@v2.0.0
+        with:
+          yamllint_strict: true
+          yamllint_comment: true
