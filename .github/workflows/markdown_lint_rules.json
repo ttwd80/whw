@@ -1,0 +1,7 @@
+{
+    "plugins": {
+        "line-length": {
+            "code_block_line_length": 200
+        }
+    }
+}
