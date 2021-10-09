@@ -1,0 +1,6 @@
+---
+# based on https://github.com/avto-dev/markdown-lint/blob/master/lint/config/changelog.yml  
+default: false # includes/excludes all rules by default
+MD013:
+  code_block_line_length: 192
+  
