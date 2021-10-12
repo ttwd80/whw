@@ -70,7 +70,7 @@ jobs:
     needs:
       - install-tools
     steps:
-      name: verify docker
-      run: docker --version | grep "20.10"
-      name: verify docker-compose
-      run: docker-compose --version && (docker-compose --version | grep "v2.0.1")
+      - name: verify docker
+        run: docker --version | grep "20.10"
+      - name: verify docker-compose
+        run: docker-compose --version && (docker-compose --version | grep "v2.0.1")
