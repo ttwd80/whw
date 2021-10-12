@@ -1,4 +1,7 @@
 #!/bin/sh
+
+docker ps -a
+
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 sleep 5
 
