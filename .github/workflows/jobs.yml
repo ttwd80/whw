@@ -51,5 +51,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Run Job
+      - name: Setup tools
+        run: scripts/setup-tools.sh
+      - name: docker-compose up
+        run: scripts/docker-compose-up.sh
+      - name: verify_arp_same_network
         run: jobs/verify_arp_same_network.sh
+      - name: docker-compose down
+        run: scripts/docker-compose-down.sh
