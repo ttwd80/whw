@@ -57,7 +57,7 @@ jobs:
         run: |
           uname -a
           chmod a+x ./docker-compose-linux-x86_64
-          mv ./docker-compose-linux-x86_644 /usr/local/bin/docker-compose
+          mv ./docker-compose-linux-x86_64 /usr/local/bin/docker-compose
       - name: Version information
         run: |
           which docker
