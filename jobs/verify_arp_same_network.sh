@@ -1,10 +1,9 @@
 #!/bin/sh
-docker ps -a
-docker logs docker-client-1
-((docker exec -t docker-client-1 tcpdump -n) > client-tcpdump.txt)&
-((docker exec -t docker-client-1 host www.google.com) > client-host.txt)&
-docker exec -t docker-client-1 ps -ef
-docker exec -t docker-client-1 pidof tcpdump
+((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
+sleep 5
+
+echo DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-cache.py | su - ubuntu
+
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
 docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
 
