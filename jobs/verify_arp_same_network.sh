@@ -7,6 +7,7 @@ docker logs docker-client-1
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 sleep 5
 
+docker exec -t docker-client-1 sh -c "whoami | su - ubuntu"
 docker exec -t docker-client-1 sh -c "export DISPLAY=:1 && google-chrome | su - ubuntu"
 # docker exec -t docker-client-1 sh -c "DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-cache.py | su - ubuntu"
 
