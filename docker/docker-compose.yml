@@ -4,6 +4,8 @@ services:
     build: client
     tty: true
     stdin_open: true
+    cap_add:
+      - SYS_ADMIN
     networks:
       custom:
         ipv4_address: 172.23.0.101
