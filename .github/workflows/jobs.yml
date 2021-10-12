@@ -46,7 +46,7 @@ jobs:
           yamllint_strict: true
           yamllint_comment: true
 
-  verify_arp_on_the_same_network:
+  install-tools:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -64,3 +64,13 @@ jobs:
           docker --version
           which docker-compose
           docker-compose --version
+
+  verify-tools:
+    runs-on: ubuntu-latest
+    needs:
+      - install-tools
+    steps:
+      name: verify docker
+      run: docker --version | grep "20.10"
+      name: verify docker-compose
+      run: docker-compose --version && (docker-compose --version | grep "v2.0.1")
