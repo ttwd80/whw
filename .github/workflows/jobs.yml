@@ -52,12 +52,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Get latest docker-compose
-        run: wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-aarch64"  # yamllint disable-line rule:truthy
+        run: wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64"  # yamllint disable-line rule:truthy
       - name: Install latest docker-compose
         run: |
           uname -a
-          chmod a+x ./docker-compose-linux-aarch64
-          mv ./docker-compose-linux-aarch64 /usr/local/bin/docker-compose
+          chmod a+x ./docker-compose-linux-x86_64
+          mv ./docker-compose-linux-x86_644 /usr/local/bin/docker-compose
       - name: Version information
         run: |
           which docker
