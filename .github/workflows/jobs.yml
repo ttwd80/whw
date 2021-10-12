@@ -45,3 +45,11 @@ jobs:
         with:
           yamllint_strict: true
           yamllint_comment: true
+  
+  verify_arp_is_executed_when_name_server_is_in_the_same_network:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Test docker
+        run: docker run hello-world
