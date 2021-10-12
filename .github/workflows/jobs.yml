@@ -45,16 +45,20 @@ jobs:
         with:
           yamllint_strict: true
           yamllint_comment: true
-  
-  verify_arp_is_executed_when_name_server_is_in_the_same_network:
+
+  verify_arp_on_the_same_network:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Test docker
+      - name: Get latest docker-compose
+        run: wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-aarch64"  # yamllint disable-line rule:truthy
+      - name: Install latest docker-compose
         run: |
+          chmod a+x ./docker-compose-linux-aarch64
+      - name: Version information
+        run: |
+          which docker
           docker --version
-          docker-compose --version
-          wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-darwin-x86_64"
           which docker-compose
-          chmod a+x ./docker-compose-darwin-x86_64
+          docker-compose --version

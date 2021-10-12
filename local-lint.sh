@@ -1,3 +1,3 @@
 #!/bin/sh
-markdownlint -c .github/workflows/markdown_lint_config.yml . && \
+markdownlint -c .github/workflows/config/markdown_lint_config.yml . && \
   yamllint .
