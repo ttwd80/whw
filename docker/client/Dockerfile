@@ -12,4 +12,4 @@ RUN wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_curren
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 ADD scripts /root/scripts
 ADD selenium /home/ubuntu/selenium
-CMD sh /root/init_client.sh && bash
+CMD sh /root/scripts/init_client.sh && bash
