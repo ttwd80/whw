@@ -2,9 +2,20 @@
 
 docker ps -a
 
-docker logs docker-client-1
+sleep 60
+
+docker ps -a
+
+sleep 60
+
+docker ps -a
+
+sleep 60
+
+docker ps -a
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
+
 sleep 5
 
 docker exec -t docker-client-1 sh -c "echo whoami | su - ubuntu"
