@@ -55,6 +55,7 @@ jobs:
         run: wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-aarch64"  # yamllint disable-line rule:truthy
       - name: Install latest docker-compose
         run: |
+          uname -a
           chmod a+x ./docker-compose-linux-aarch64
           mv ./docker-compose-linux-aarch64 /usr/local/bin/docker-compose
       - name: Version information
