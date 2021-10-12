@@ -7,3 +7,5 @@ chmod a+x chromedriver
 mv chromedriver /usr/local/bin
 
 pip install selenium
+
+useradd -m ubuntu
