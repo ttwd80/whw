@@ -6,7 +6,8 @@ RUN apt-get update && \
     sudo \
     xvfb \
     tcpdump
-RUN wget "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
-    apt install ./google-chrome-stable_current_amd64.deb
+RUN wget "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+RUN apt-get install google-chrome-stable_current_amd64.deb
+RUN useradd ubuntu
 COPY scripts/init_etc_resolv_conf.sh /root/
 CMD sh /root/init_etc_resolv_conf.sh && bash
