@@ -52,4 +52,4 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Run Job
-        run: scripts/verify_arp_same_network.sh
+        run: jobs/verify_arp_same_network.sh
