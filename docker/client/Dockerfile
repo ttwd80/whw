@@ -8,7 +8,7 @@ RUN apt-get update && \
     unzip \
     python3-pip \
     tcpdump
-RUN wget --silent "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+RUN wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 ADD scripts /root/scripts
 ADD selenium /home/ubuntu/selenium
