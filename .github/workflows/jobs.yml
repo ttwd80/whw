@@ -52,7 +52,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Get latest docker-compose
-        run: wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64"  # yamllint disable-line rule:truthy
+        run: wget "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64"  # yamllint disable-line rule:line-length
       - name: Install latest docker-compose
         run: |
           uname -a
@@ -73,4 +73,4 @@ jobs:
       - name: verify docker
         run: docker --version | grep "20.10"
       - name: verify docker-compose
-        run: docker-compose --version && (docker-compose --version | grep "v2.0.1")
+        run: docker-compose --version && (docker-compose --version | grep "v2.0.1")  # yamllint disable-line rule:line-length
