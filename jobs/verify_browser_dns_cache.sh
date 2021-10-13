@@ -15,3 +15,12 @@ cat client-tcpdump.txt
 
 echo "Only with port 53"
 cat client-tcpdump.txt | grep "53:"
+
+# verify - fail on purpose
+ACTUAL=$(cat client-tcpdump.txt| grep "github.com" | grep -v api | wc -l | tr -d ' ')
+# 3 request sent, 2 were cache misses and will hit the DNS resolver
+# - cache miss, first call, cached
+# - cache hit, within one minute of the cached call
+# - cache miss, after one minute of the cached call
+EXPECTED=7
+echo ${ACTUAL} | grep -w ${EXPECTED}
