@@ -46,7 +46,7 @@ jobs:
           yamllint_strict: true
           yamllint_comment: true
 
-  verify_arp_same_network:
+  verify_browser_dns_cache:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -55,7 +55,7 @@ jobs:
         run: scripts/setup-tools.sh
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
-      - name: verify_arp_same_network
-        run: jobs/verify_arp_same_network.sh
+      - name: verify_browser_dns_cache
+        run: jobs/verify_browser_dns_cache.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh

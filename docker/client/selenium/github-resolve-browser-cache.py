@@ -4,12 +4,13 @@ from time import strftime
 import time
 
 driver = Chrome()
-print(strftime("%Y-%m-%d %H:%M:%S\n"))
-driver.get("https://github.com/")
+url = "https://github.com/favicon.ico"
+print("Request time: " + strftime("%Y-%m-%d %H:%M:%S\n"))
+driver.get(url)
 time.sleep(55)
-print(strftime("%Y-%m-%d %H:%M:%S\n"))
-driver.get("https://github.com/")
+print("Request time: " + strftime("%Y-%m-%d %H:%M:%S\n"))
+driver.get(url)
 time.sleep(10)
-print(strftime("%Y-%m-%d %H:%M:%S\n"))
-driver.get("https://github.com/")
+print("Request time: " + strftime("%Y-%m-%d %H:%M:%S\n"))
+driver.get(url)
 driver.quit()
