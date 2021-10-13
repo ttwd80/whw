@@ -59,3 +59,17 @@ jobs:
         run: jobs/verify_browser_dns_cache.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
+
+  verify_browser_dns_no_cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup tools
+        run: scripts/setup-tools.sh
+      - name: docker-compose up
+        run: scripts/docker-compose-up.sh
+      - name: verify_browser_dns_no_cache
+        run: jobs/verify_browser_dns_no_cache.sh
+      - name: docker-compose down
+        run: scripts/docker-compose-down.sh
