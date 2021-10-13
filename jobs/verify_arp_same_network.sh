@@ -2,21 +2,7 @@
 
 docker ps -a
 
-sleep 60
-
-docker ps -a
-
-sleep 60
-
-docker ps -a
-
-sleep 60
-
-docker ps -a
-
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
-
-sleep 5
 
 docker exec -t docker-client-1 sh -c "echo whoami | su - ubuntu"
 docker exec -t docker-client-1 sh -c "echo 'export DISPLAY=:1 && google-chrome' | su - ubuntu"

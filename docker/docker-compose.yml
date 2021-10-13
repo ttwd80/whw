@@ -9,12 +9,6 @@ services:
     networks:
       custom:
         ipv4_address: 172.23.0.101
-    healthcheck:
-      test: ["CMD", "ls", "-l", "/.ready"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
   resolver:
     build: resolver
     tty: true
