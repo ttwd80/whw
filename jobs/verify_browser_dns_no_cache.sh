@@ -20,6 +20,6 @@ cat client-tcpdump.txt | grep "53:"
 echo "Verify DNS resolution count..."
 ACTUAL=$(cat client-tcpdump.txt| grep "github.com" | grep -v api | wc -l | tr -d ' ')
 # 3 request sent, all 3 are not cached
-EXPECTED=9
+EXPECTED=3
 echo ACTUAL=${ACTUAL}
 echo ${ACTUAL} | grep -w ${EXPECTED}
