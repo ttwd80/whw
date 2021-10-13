@@ -45,3 +45,17 @@ jobs:
         with:
           yamllint_strict: true
           yamllint_comment: true
+
+  verify_browser_dns_cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup tools
+        run: scripts/setup-tools.sh
+      - name: docker-compose up
+        run: scripts/docker-compose-up.sh
+      - name: verify_browser_dns_cache
+        run: jobs/verify_browser_dns_cache.sh
+      - name: docker-compose down
+        run: scripts/docker-compose-down.sh
