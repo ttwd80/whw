@@ -13,8 +13,8 @@ echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 
 # Show nscd information before requests are made
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22 | tee nscd-host-info.txt
-CACHE_HIT_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
-echo "CACHE_HIT_COUNT => ${CACHE_HIT_COUNT}"
+CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
+echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
 echo "Show host information:"
 strings /var/db/nscd/hosts
@@ -49,8 +49,9 @@ echo ${BC_RESULT} | grep -w "1"
 
 # Show nscd information before after are made
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22 | tee nscd-host-info.txt
-CACHE_HIT_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
-echo "CACHE_HIT_COUNT => ${CACHE_HIT_COUNT}"
+CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
+echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
 echo "Show host information:"
+ls -l /var/db/nscd/hosts
 strings /var/db/nscd/hosts
