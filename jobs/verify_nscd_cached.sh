@@ -64,4 +64,4 @@ CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached val
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
 echo "Show host information:"
-echo 'strings /var/db/nscd/hosts'  | docker exec -i docker-client-1 su -
+echo 'find /var -name hosts'  | docker exec -i docker-client-1 su -
