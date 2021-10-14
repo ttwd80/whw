@@ -6,7 +6,7 @@ docker ps -a
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
-echo 'apt-get install -qq nscd'  | docker exec -i docker-client-1 su -
+echo 'apt-get install -qq nscd bc'  | docker exec -i docker-client-1 su -
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
 echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
