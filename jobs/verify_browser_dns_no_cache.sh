@@ -18,7 +18,7 @@ cat client-tcpdump.txt
 echo "Only with port 53"
 cat client-tcpdump.txt | grep "53:"
 
-# verify - fail on purpose
+# verify
 echo "Verify DNS resolution count..."
 ACTUAL=$(cat client-tcpdump.txt| grep "github.com" | grep -v api | wc -l | tr -d ' ')
 # 3 request sent, all 3 are not cached
