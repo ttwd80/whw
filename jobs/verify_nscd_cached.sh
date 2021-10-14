@@ -28,7 +28,7 @@ else
 fi
 
 echo "Show host information:"
-echo 'strings /var/db/nscd/hosts'  | docker exec -i docker-client-1 su -
+echo 'strings /var/cache/nscd/hosts'  | docker exec -i docker-client-1 su -
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
@@ -64,4 +64,4 @@ CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached val
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
 echo "Show host information:"
-echo 'find /var -name hosts'  | docker exec -i docker-client-1 su -
+echo 'strings /var/cache/nscd/hosts'  | docker exec -i docker-client-1 su -
