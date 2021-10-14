@@ -10,6 +10,10 @@ echo 'apt-get install -qq nscd bc'  | docker exec -i docker-client-1 su -
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
 echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
+
+# Show nscd information before requests are made
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | tee nscd-info.txt
+
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
 
@@ -35,6 +39,6 @@ echo ACTUAL=${ACTUAL}
 # bc returns 1 if the comparison is true
 # fail on purpose
 BC_RESULT=$(echo "${ACTUAL} < ${SENT}" | bc)
-echo "BC_RESULT => ${RESULT}"
+echo "BC_RESULT => ${BC_RESULT}"
 echo ${BC_RESULT} | grep -w "0"
 
