@@ -1,11 +1,15 @@
 #!/bin/sh
 
-# If a request DNS resolution request has not been made in the last 60 seconds, an actual request will be made.
+# If a nscd is running, Google Chrome will try to get a cached value from nscd
 
 docker ps -a
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
+echo 'apt-get install -qq nscd'  | docker exec -i docker-client-1 su -
+echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
+sleep 5
+echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
 
@@ -25,3 +29,4 @@ ACTUAL=$(cat client-tcpdump.txt| grep "github.com" | grep -v api | wc -l | tr -d
 EXPECTED=3
 echo ACTUAL=${ACTUAL}
 echo ${ACTUAL} | grep -w ${EXPECTED}
+

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# If a request DNS resolution request has been made in the last 60 seconds, a cached value is used.
+
 docker ps -a
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
