@@ -17,7 +17,10 @@ CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached val
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
 # verify 0 cached entry
-echo ${CACHED_ENTRY_COUNT} | grep -w "1"
+BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} > 0" | bc)
+# it should be 0, false. Cached entry count should NOT be more than 0.
+echo "BC_RESULT => ${BC_RESULT}"
+echo ${BC_RESULT} | grep -w "5"
 
 echo "Show host information:"
 strings /var/db/nscd/hosts
