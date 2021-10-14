@@ -16,6 +16,9 @@ echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 2
 CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
+# verify 0 cached entry
+echo ${CACHED_ENTRY_COUNT} | grep -w "1"
+
 echo "Show host information:"
 strings /var/db/nscd/hosts
 
