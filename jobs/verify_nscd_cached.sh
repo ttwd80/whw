@@ -19,9 +19,16 @@ echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} > 0" | bc)
 # it should be 0, false. Cached entry count should NOT be more than 0.
 echo "BC_RESULT => ${BC_RESULT}"
-echo ${BC_RESULT} | grep -w "5"
+if ${BC_RESULT} | grep -w "5"
+then
+  echo "CACHED_ENTRY_COUNT is good"
+else
+  echo "CACHED_ENTRY_COUNT is bad"
+  exit 1
+fi
 
 echo "Show host information:"
+find /var -name "hosts"
 strings /var/db/nscd/hosts
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
