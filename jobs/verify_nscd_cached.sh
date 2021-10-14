@@ -13,8 +13,11 @@ echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 
 # Show nscd information before requests are made
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22 | tee nscd-host-info.txt
-CACHE_HIT_COUNT=$(cat nscd-host-info.txt | grep "cache hits on positive entries" | grep -o "[0-9]*")
+CACHE_HIT_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
 echo "CACHE_HIT_COUNT => ${CACHE_HIT_COUNT}"
+
+echo "Show host information:"
+strings /var/db/nscd/hosts
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
@@ -46,7 +49,8 @@ echo ${BC_RESULT} | grep -w "1"
 
 # Show nscd information before after are made
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22 | tee nscd-host-info.txt
-CACHE_HIT_COUNT=$(cat nscd-host-info.txt | grep "cache hits on positive entries" | grep -o "[0-9]*")
+CACHE_HIT_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
 echo "CACHE_HIT_COUNT => ${CACHE_HIT_COUNT}"
 
-
+echo "Show host information:"
+strings /var/db/nscd/hosts
