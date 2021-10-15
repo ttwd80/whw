@@ -40,7 +40,7 @@ echo "Only with port 53"
 cat client-tcpdump.txt | grep "\.53:"
 
 # verify
-$(dirname "$0")/assert/assert_nscd_request_count.sh 9
+$(dirname "$0")/assert/assert_nscd_request_count.sh 1
 
 # Show nscd information after requests are made
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
