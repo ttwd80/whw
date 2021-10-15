@@ -62,7 +62,7 @@ else
 fi
 
 # Show nscd information after requests are made
-$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
+$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
 
 NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "www.google.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
 echo "NSCD_HOSTS_ENTRY => ${NSCD_HOSTS_ENTRY}"
