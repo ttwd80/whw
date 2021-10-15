@@ -69,7 +69,7 @@ jobs:
       - name: Build client
         run: >
           cd docker/client &&
-          docker buildx build -t docker_client \
+          docker buildx build --load -t docker_client \
             --cache-from type=local,src=/tmp/.buildx-cache \
             --cache-to type=local,dest=/tmp/.buildx-cache-new . &&
           docker image ls
