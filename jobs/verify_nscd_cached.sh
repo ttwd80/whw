@@ -29,7 +29,7 @@ echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} == 0" | bc)
 # it should be 0, false. Cached entry count should NOT be more than 0.
 echo "BC_RESULT => ${BC_RESULT}"
-if echo ${CACHED_ENTRY_COUNT} | grep -w "1"
+if echo ${BC_RESULT} | grep -w "1"
 then
   echo "CACHED_ENTRY_COUNT is good"
 else
@@ -77,7 +77,7 @@ echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} > 0" | bc)
 # it should be > 0.
 echo "BC_RESULT => ${BC_RESULT}"
-if echo ${CACHED_ENTRY_COUNT} | grep -w "1"
+if echo ${BC_RESULT} | grep -w "1"
 then
   echo "CACHED_ENTRY_COUNT is good"
 else
