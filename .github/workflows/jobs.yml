@@ -53,8 +53,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Setup tools
-        run: scripts/setup-tools.sh
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
