@@ -53,14 +53,14 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Cache Docker layers
+      - name: Cache docker_client layers
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-cache
+          path: /tmp/.buildx-docker_client-cache
           key: >
             cache-${{ hashFiles('**/docker-compose.yml',
               '**/Dockerfile',
-              '/tmp/.buildx-cache/**') }}
+              '/tmp/.buildx-docker_client-cache/**') }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
         id: buildx
@@ -70,13 +70,13 @@ jobs:
         run: >
           cd docker/client &&
           docker buildx build --load -t docker_client \
-            --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to type=local,dest=/tmp/.buildx-cache-new . &&
-          docker image ls
+            --cache-from type=local,src=/tmp/.buildx-docker_client-cache \
+            --cache-to type=local,dest=/tmp/.buildx-docker_client-cache-new .
+            > /dev/null
       - name: Move cache after client
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/.buildx-docker_client-cache
+          mv /tmp/.buildx-docker_client-cache-new /tmp/.buildx-docker_client-cache
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_browser_dns_cache
