@@ -81,8 +81,7 @@ jobs:
           cd docker/client &&
           docker buildx build --load -t docker_client \
             --cache-from type=local,src=${CACHE_LOCATION_CLIENT} \
-            --cache-to type=local,dest=${CACHE_LOCATION_CLIENT}-new .
-            2> /dev/null
+            --cache-to type=local,dest=${CACHE_LOCATION_CLIENT}-new . 2> /dev/null
       - name: Move cache after client build
         run: |
           rm -rf ${CACHE_LOCATION_CLIENT}
@@ -92,8 +91,7 @@ jobs:
           cd docker/resolver &&
           docker buildx build --load -t docker_resolver \
             --cache-from type=local,src=${CACHE_LOCATION_RESOLVER} \
-            --cache-to type=local,dest=${CACHE_LOCATION_RESOLVER}-new .
-            2> /dev/null
+            --cache-to type=local,dest=${CACHE_LOCATION_RESOLVER}-new . 2> /dev/null
       - name: Move cache after resolver build
         run: |
           rm -rf ${CACHE_LOCATION_RESOLVER}
