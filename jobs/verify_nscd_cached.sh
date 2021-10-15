@@ -4,11 +4,11 @@
 
 # 2 tests before the browser requests https://github.com/favicon.ico
 # - 0 current number of cached values reported by nscd -g
-# - related to /var/cache/nscd/hosts
+# - NSCD_HOSTS_ENTRY should be 0
 
 # 3 tests after the browser requests https://github.com/favicon.ico
 # - current number of cached values > 0 reported by nscd -g (shows nscd was used)
-# - related to /var/cache/nscd/hosts - shows github.com is cached by nscd
+# - NSCD_HOSTS_ENTRY should be 1
 # - tcp dump shows only one entry, we made 3 requests, 1 was not cached, 2 were cached by nscd
 
 docker ps -a
@@ -37,9 +37,14 @@ else
   exit 1
 fi
 
-echo "Show host information:"
-echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -
-# Test here
+NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
+if echo ${NSCD_HOSTS_ENTRY} | grep -w "0"
+then
+  echo "NSCD_HOSTS_ENTRY is good."
+else
+  echo "NSCD_HOSTS_ENTRY is bad."
+  exit 1
+fi
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/github-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
@@ -79,9 +84,9 @@ BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} > 0" | bc)
 echo "BC_RESULT => ${BC_RESULT}"
 if echo ${BC_RESULT} | grep -w "1"
 then
-  echo "CACHED_ENTRY_COUNT is good"
+  echo "CACHED_ENTRY_COUNT is good."
 else
-  echo "CACHED_ENTRY_COUNT is bad"
+  echo "CACHED_ENTRY_COUNT is bad."
   exit 1
 fi
 
@@ -91,6 +96,11 @@ echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 2
 CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
-echo "Show host information:"
-echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -
-# Test here
+NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
+if echo ${NSCD_HOSTS_ENTRY} | grep -w "1"
+then
+  echo "NSCD_HOSTS_ENTRY is good."
+else
+  echo "NSCD_HOSTS_ENTRY is bad."
+  exit 1
+fi
