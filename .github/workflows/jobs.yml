@@ -65,9 +65,8 @@ jobs:
           push: false
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          context: .
+          context: ./docker/client
           builder: ${{ steps.buildx.outputs.name }}
-          file: docker/client/Dockerfile
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
