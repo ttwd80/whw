@@ -72,6 +72,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           context: ./docker/client
+          tags: user/dns-client:latest
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
