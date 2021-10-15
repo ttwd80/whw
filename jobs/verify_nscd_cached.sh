@@ -28,7 +28,7 @@ CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached val
 BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} == 0" | bc)
 # it should be 0, false. Cached entry count should NOT be more than 0.
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
-if echo ${BC_RESULT} | grep -w "1"
+if echo ${BC_RESULT} | grep -wq "1"
 then
   echo "CACHED_ENTRY_COUNT is good."
 else
@@ -38,7 +38,7 @@ fi
 
 NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "www.google.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
 echo "NSCD_HOSTS_ENTRY => ${NSCD_HOSTS_ENTRY}"
-if echo ${NSCD_HOSTS_ENTRY} | grep -w "0"
+if echo ${NSCD_HOSTS_ENTRY} | grep -wq "0"
 then
   echo "NSCD_HOSTS_ENTRY is good."
 else
@@ -66,7 +66,7 @@ REQUEST_COUNT=$(cat client-tcpdump.txt | cut -b 17- | uniq | grep -w 'www.google
 
 # test
 echo "REQUEST_COUNT => ${REQUEST_COUNT}"
-if echo ${REQUEST_COUNT} | grep -w "1"
+if echo ${REQUEST_COUNT} | grep -wq "1"
 then
   echo "REQUEST_COUNT is good."
 else
@@ -82,7 +82,7 @@ CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached val
 BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} > 0" | bc)
 # it should be > 0.
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
-if echo ${BC_RESULT} | grep -w "1"
+if echo ${BC_RESULT} | grep -wq "1"
 then
   echo "CACHED_ENTRY_COUNT is good."
 else
@@ -90,10 +90,9 @@ else
   exit 1
 fi
 
-echo 'strings /var/cache/nscd/hosts'  | docker exec -i docker-client-1 su -
 NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "www.google.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
 echo "NSCD_HOSTS_ENTRY => ${NSCD_HOSTS_ENTRY}"
-if echo ${NSCD_HOSTS_ENTRY} | grep -w "1"
+if echo ${NSCD_HOSTS_ENTRY} | grep -wq "1"
 then
   echo "NSCD_HOSTS_ENTRY is good."
 else
