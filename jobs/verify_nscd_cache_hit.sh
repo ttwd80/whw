@@ -40,18 +40,7 @@ echo "Only with port 53"
 cat client-tcpdump.txt | grep "\.53:"
 
 # verify
-echo "Verify DNS resolution count..."
-REQUEST_COUNT=$(cat client-tcpdump.txt | cut -b 17- | uniq | grep -w 'www.google.com.' | grep -w 'A.' |  wc -l | tr -d ' ' )
-
-# test
-echo "REQUEST_COUNT => ${REQUEST_COUNT}"
-if echo ${REQUEST_COUNT} | grep -wq "1"
-then
-  echo "REQUEST_COUNT is good."
-else
-  echo "REQUEST_COUNT is bad."
-  exit 1
-fi
+$(dirname "$0")/assert/assert_nscd_request_count.sh 8
 
 # Show nscd information after requests are made
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
