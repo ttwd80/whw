@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -e
 
 # If a nscd is running, Google Chrome will try to get a cached value from nscd
 
@@ -21,30 +21,9 @@ sleep 5
 echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 
 # Show nscd information before requests are made
-echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22 | tee nscd-host-info.txt
-CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
+$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
 
-# verify 0 cached entry
-BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} == 0" | bc)
-# it should be 0, false. Cached entry count should NOT be more than 0.
-echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
-if echo ${BC_RESULT} | grep -wq "1"
-then
-  echo "CACHED_ENTRY_COUNT is good."
-else
-  echo "CACHED_ENTRY_COUNT is bad."
-  exit 1
-fi
-
-NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "www.google.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
-echo "NSCD_HOSTS_ENTRY => ${NSCD_HOSTS_ENTRY}"
-if echo ${NSCD_HOSTS_ENTRY} | grep -wq "0"
-then
-  echo "NSCD_HOSTS_ENTRY is good."
-else
-  echo "NSCD_HOSTS_ENTRY is bad."
-  exit 1
-fi
+$(dirname "$0")/assert/assert_nscd_host_entry.sh 0
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
@@ -75,27 +54,6 @@ else
 fi
 
 # Show nscd information after requests are made
-echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22 | tee nscd-host-info.txt
-CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached values" | grep -o "[0-9]*")
+$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
 
-# verify > 0 cached entry
-BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} > 0" | bc)
-# it should be > 0.
-echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
-if echo ${BC_RESULT} | grep -wq "1"
-then
-  echo "CACHED_ENTRY_COUNT is good."
-else
-  echo "CACHED_ENTRY_COUNT is bad."
-  exit 1
-fi
-
-NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "www.google.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
-echo "NSCD_HOSTS_ENTRY => ${NSCD_HOSTS_ENTRY}"
-if echo ${NSCD_HOSTS_ENTRY} | grep -wq "1"
-then
-  echo "NSCD_HOSTS_ENTRY is good."
-else
-  echo "NSCD_HOSTS_ENTRY is bad."
-  exit 1
-fi
+$(dirname "$0")/assert/assert_nscd_host_entry.sh 1
