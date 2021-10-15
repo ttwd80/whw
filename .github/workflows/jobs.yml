@@ -51,10 +51,10 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
     steps:
-      - name: Verify env
-        run: echo "DOCKER_BUILDKIT => ${DOCKER_BUILDKIT}"
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Setup tools
+        run: scripts/setup-tools.sh
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -65,20 +65,22 @@ jobs:
         id: buildx
         with:
           install: true
-      - name: Build
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-          context: ./docker/client
-          tags: user/dns-client:latest
-      - name: Move cache
+      - name: Build client
+        run: |
+          cd docker/client
+          docker buildx build --load --cache-from type=local,src=/tmp/.buildx-cache --cache-to type=local,dest=/tmp/.buildx-cache-new .
+      - name: Move cache after client
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-      - name: Setup tools
-        run: scripts/setup-tools.sh
+      - name: Build resolver
+        run: |
+          cd docker/resolver
+          docker buildx build --load --cache-from type=local,src=/tmp/.buildx-cache --cache-to type=local,dest=/tmp/.buildx-cache-new .
+      - name: Move cache after resolver
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_browser_dns_cache
