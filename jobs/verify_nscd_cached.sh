@@ -31,14 +31,14 @@ BC_RESULT=$(echo "${CACHED_ENTRY_COUNT} == 0" | bc)
 echo "BC_RESULT => ${BC_RESULT}"
 if echo ${BC_RESULT} | grep -w "1"
 then
-  echo "CACHED_ENTRY_COUNT is good"
+  echo "CACHED_ENTRY_COUNT is good."
 else
-  echo "CACHED_ENTRY_COUNT is bad"
+  echo "CACHED_ENTRY_COUNT is bad."
   exit 1
 fi
 
 echo "Show host information:"
-echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -
+echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -
 # Test here
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
@@ -62,9 +62,9 @@ ACTUAL=$(cat client-tcpdump.txt | cut -b 17- | uniq | grep -w 'github.com.' | gr
 echo "ACTUAL => ${ACTUAL}"
 if echo ${ACTUAL} | grep -w "1"
 then
-  echo "REQUEST_COUNT is good"
+  echo "REQUEST_COUNT is good."
 else
-  echo "REQUEST_COUNT is bad"
+  echo "REQUEST_COUNT is bad."
   exit 1
 fi
 
@@ -92,4 +92,5 @@ CACHED_ENTRY_COUNT=$(cat nscd-host-info.txt | grep "current number of cached val
 echo "CACHED_ENTRY_COUNT => ${CACHED_ENTRY_COUNT}"
 
 echo "Show host information:"
-echo 'strings /var/cache/nscd/hosts'  | docker exec -i docker-client-1 su -
+echo 'strings /var/cache/nscd/hosts | grep -w "github.com" | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -
+# Test here
