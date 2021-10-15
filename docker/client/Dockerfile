@@ -7,6 +7,8 @@ RUN apt-get update && \
     sudo \
     xvfb \
     unzip \
+    nscd \
+    bc \
     python3-pip \
     tcpdump
 RUN wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"

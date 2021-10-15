@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# If a request DNS resolution request has not been made in the last 60 seconds, an actual request will be made.
+
 docker ps -a
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
@@ -16,7 +18,7 @@ cat client-tcpdump.txt
 echo "Only with port 53"
 cat client-tcpdump.txt | grep "53:"
 
-# verify - fail on purpose
+# verify
 echo "Verify DNS resolution count..."
 ACTUAL=$(cat client-tcpdump.txt| grep "github.com" | grep -v api | wc -l | tr -d ' ')
 # 3 request sent, all 3 are not cached
