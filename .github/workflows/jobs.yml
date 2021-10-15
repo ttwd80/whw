@@ -68,10 +68,10 @@ jobs:
           install: true
       - name: Build client
         run: >
-          cd docker/client && \
+          cd docker/client &&
           docker buildx build --load \
             --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to type=local,dest=/tmp/.buildx-cache-new . && \
+            --cache-to type=local,dest=/tmp/.buildx-cache-new . &&
           docker image ls
       - name: Move cache after client
         run: |
