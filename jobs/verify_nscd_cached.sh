@@ -90,6 +90,7 @@ else
   exit 1
 fi
 
+echo 'strings /var/cache/nscd/hosts'  | docker exec -i docker-client-1 su -
 NSCD_HOSTS_ENTRY=$(echo 'strings /var/cache/nscd/hosts | grep -w "www.google.com." | sort | uniq | wc -l | tr -d " "'  | docker exec -i docker-client-1 su -)
 echo "NSCD_HOSTS_ENTRY => ${NSCD_HOSTS_ENTRY}"
 if echo ${NSCD_HOSTS_ENTRY} | grep -w "1"
