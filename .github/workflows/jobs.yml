@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
      - name: Setup env
-        run: export DOCKER_BUILDKIT=1
+        run: export "DOCKER_BUILDKIT=1"
      - name: Verify env
         run: echo "DOCKER_BUILDKIT => ${DOCKER_BUILDKIT}"
       - name: Check out code
