@@ -74,7 +74,7 @@ jobs:
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
-  verify_nscd_cached:
+  verify_nscd_cache_hit:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -83,7 +83,7 @@ jobs:
         run: scripts/setup-tools.sh
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
-      - name: verify_nscd_cached
-        run: jobs/verify_nscd_cached.sh
+      - name: verify_nscd_cache_hit
+        run: jobs/verify_nscd_cache_hit.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
