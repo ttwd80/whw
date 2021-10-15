@@ -56,4 +56,4 @@ fi
 # Show nscd information after requests are made
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
 
-$(dirname "$0")/assert/assert_nscd_host_entry.sh 7
+$(dirname "$0")/assert/assert_nscd_host_entry.sh 1
