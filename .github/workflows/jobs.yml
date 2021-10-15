@@ -48,9 +48,9 @@ jobs:
 
   verify_browser_dns_cache:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
     steps:
-      - name: Setup env
-        run: export "DOCKER_BUILDKIT=1"
       - name: Verify env
         run: echo "DOCKER_BUILDKIT => ${DOCKER_BUILDKIT}"
       - name: Check out code
