@@ -49,9 +49,9 @@ jobs:
   verify_browser_dns_cache:
     runs-on: ubuntu-latest
     steps:
-     - name: Setup env
+      - name: Setup env
         run: export "DOCKER_BUILDKIT=1"
-     - name: Verify env
+      - name: Verify env
         run: echo "DOCKER_BUILDKIT => ${DOCKER_BUILDKIT}"
       - name: Check out code
         uses: actions/checkout@v2
