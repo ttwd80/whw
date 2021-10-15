@@ -66,17 +66,21 @@ jobs:
         with:
           install: true
       - name: Build client
-        run: |
-          cd docker/client
-          docker buildx build --load --cache-from type=local,src=/tmp/.buildx-cache --cache-to type=local,dest=/tmp/.buildx-cache-new .
+        run: >
+          cd docker/client &&
+          docker buildx build --load
+            --cache-from type=local,src=/tmp/.buildx-cache
+            --cache-to type=local,dest=/tmp/.buildx-cache-new .
       - name: Move cache after client
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Build resolver
-        run: |
-          cd docker/resolver
-          docker buildx build --load --cache-from type=local,src=/tmp/.buildx-cache --cache-to type=local,dest=/tmp/.buildx-cache-new .
+        run: >
+          cd docker/resolver &&
+          docker buildx build --load
+            --cache-from type=local,src=/tmp/.buildx-cache
+            --cache-to type=local,dest=/tmp/.buildx-cache-new .
       - name: Move cache after resolver
         run: |
           rm -rf /tmp/.buildx-cache
