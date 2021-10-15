@@ -59,7 +59,7 @@ echo 'nscd --invalidate=hosts'  | docker exec -i docker-client-1 su -
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 1
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
-$(dirname "$0")/assert/assert_nscd_host_entry.sh 0
+$(dirname "$0")/assert/assert_nscd_host_entry.sh 1 # contains expired
 
 # Another set of requests to https://www.google.com/
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
