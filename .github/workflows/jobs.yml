@@ -50,6 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
+      CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -70,13 +71,13 @@ jobs:
         run: >
           cd docker/client &&
           docker buildx build --load -t docker_client \
-            --cache-from type=local,src=/tmp/.buildx-docker_client-cache \
-            --cache-to type=local,dest=/tmp/.buildx-docker_client-cache-new .
+            --cache-from type=local,src=${CACHE_LOCATION_CLIENT} \
+            --cache-to type=local,dest=${CACHE_LOCATION_CLIENT}-new .
             > /dev/null
       - name: Move cache after client
         run: |
-          rm -rf /tmp/.buildx-docker_client-cache
-          mv /tmp/.buildx-docker_client-cache-new /tmp/.buildx-docker_client-cache
+          rm -rf ${CACHE_LOCATION_CLIENT}
+          mv ${CACHE_LOCATION_CLIENT}-new ${CACHE_LOCATION_CLIENT}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_browser_dns_cache
