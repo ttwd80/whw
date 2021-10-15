@@ -68,8 +68,8 @@ jobs:
       - name: Build client
         run: >
           cd docker/client &&
-          docker buildx build --load
-            --cache-from type=local,src=/tmp/.buildx-cache
+          docker buildx build --load \
+            --cache-from type=local,src=/tmp/.buildx-cache \
             --cache-to type=local,dest=/tmp/.buildx-cache-new .
       - name: Move cache after client
         run: |
@@ -78,8 +78,8 @@ jobs:
       - name: Build resolver
         run: >
           cd docker/resolver &&
-          docker buildx build --load
-            --cache-from type=local,src=/tmp/.buildx-cache
+          docker buildx build --load \
+            --cache-from type=local,src=/tmp/.buildx-cache \
             --cache-to type=local,dest=/tmp/.buildx-cache-new .
       - name: Move cache after resolver
         run: |
