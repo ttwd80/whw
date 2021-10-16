@@ -22,7 +22,7 @@ cat client-tcpdump.txt | grep "53:"
 # verify
 echo "Verify DNS resolution count..."
 ACTUAL=$(cat client-tcpdump.txt| grep -w "www.google.com" | wc -l | tr -d ' ')
-# 3 request sent, 2 were cache misses and will hit the DNS resolver
+# 3 request sent, 2 were cache hits and 1 will hit the DNS resolver
 # - cache miss, first call, cached
 # - cache hit, within one minute of the cached call
 # - cache hit, within one minute of the cached call
