@@ -26,6 +26,6 @@ ACTUAL=$(cat client-tcpdump.txt| grep -w "www.google.com" | wc -l | tr -d ' ')
 # - cache miss, first call, cached
 # - cache hit, within one minute of the cached call
 # - cache miss, after one minute of the cached call
-EXPECTED=2
+EXPECTED=1
 echo ACTUAL=${ACTUAL}
 echo ${ACTUAL} | grep "^${EXPECTED}\$"

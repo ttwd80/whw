@@ -7,7 +7,7 @@ docker ps -a
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
 docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
