@@ -46,7 +46,7 @@ jobs:
           yamllint_strict: true
           yamllint_comment: true
 
-  verify_browser_dns_cache:
+  verify_browser_dns_cache_hit:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
@@ -99,11 +99,11 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_browser_dns_cache
-        run: jobs/verify_browser_dns_cache.sh
+        run: jobs/verify_browser_dns_cache_hit.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
-  verify_browser_dns_no_cache:
+  verify_browser_dns_cache_miss:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
@@ -156,7 +156,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_browser_dns_no_cache
-        run: jobs/verify_browser_dns_no_cache.sh
+        run: jobs/verify_browser_dns_cache_miss.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
