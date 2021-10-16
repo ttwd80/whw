@@ -25,7 +25,7 @@ ACTUAL=$(cat client-tcpdump.txt| grep -w "www.google.com" | wc -l | tr -d ' ')
 # 3 request sent, 2 were cache misses and will hit the DNS resolver
 # - cache miss, first call, cached
 # - cache hit, within one minute of the cached call
-# - cache miss, after one minute of the cached call
+# - cache hit, within one minute of the cached call
 EXPECTED=1
 echo ACTUAL=${ACTUAL}
 echo ${ACTUAL} | grep "^${EXPECTED}\$"
