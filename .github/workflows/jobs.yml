@@ -62,13 +62,16 @@ jobs:
           path: /tmp/deb-cache
           key: >
             cache-${{ hashFiles('/tmp/deb-cache/**') }}
-      - name: apt-get update
+      - name: apt-get
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq \
             tcpdump \
+            python3-pip \
             xvfb \
             wget
+      - name: pip
+        run: sudo pip install selenium
       - name: Download Google Chrome
         if: steps.cache-debian-packages.outputs.cache-hit != 'true'
         run: |
@@ -83,7 +86,7 @@ jobs:
       - name: Run Google Chrome version
         run: google-chrome --version
       - name: Run Google Chrome
-        run: google-chrome www.google.com
+        run: python3 ./docker/client/selenium/google-resolve-browser-cache-hit.py
 
   verify_browser_dns_cache_miss:
     if: false
