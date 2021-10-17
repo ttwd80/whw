@@ -78,6 +78,38 @@ jobs:
       - name: assert
         run: jobs/assert/assert_tcpdump_dns_resolution_count.sh tcpdump-udp-port-53.txt www.google.com 1  # yamllint disable-line rule:line-length
 
+  verify_browser_dns_cache_miss_expire:
+    runs-on: ubuntu-latest
+    env:
+      LOCATION_DEB_CACHE: /tmp/deb-cache
+      URL_GOOGLE_CHROME_DEB: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb  # yamllint disable-line rule:line-length
+      DISPLAY: :1
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: apt-get
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq \
+            tcpdump \
+            python3-pip \
+            xvfb \
+            wget
+      - name: pip
+        run: sudo pip install selenium
+      - name: Run Xvfb
+        run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
+      - name: Run tcpdump
+        run: (sudo tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
+      - name: Run Google Chrome version
+        run: google-chrome --version
+      - name: Run Google Chrome
+        run: python3 ./docker/client/selenium/google-resolve-browser-cache-miss-expire.py  # yamllint disable-line rule:line-length
+      - name: Stop tcpdump
+        run: sudo kill $(pidof tcpdump)
+      - name: assert
+        run: jobs/assert/assert_tcpdump_dns_resolution_count.sh tcpdump-udp-port-53.txt www.google.com 1  # yamllint disable-line rule:line-length
+
   verify_browser_dns_cache_miss:
     if: false
     runs-on: ubuntu-latest
