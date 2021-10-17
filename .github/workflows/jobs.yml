@@ -50,6 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       LOCATION_DEB_CACHE: /tmp/deb-cache
+      URL_GOOGLE_CHROME_DEB: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb  # yamllint disable-line rule:line-length
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -68,7 +69,7 @@ jobs:
         run: |
           mkdir -p ${LOCATION_DEB_CACHE}
           cd ${LOCATION_DEB_CACHE}
-          wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+          wget --quiet ${URL_GOOGLE_CHROME_DEB}
       - name: Install Google Chrome
         run: |
           sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*
