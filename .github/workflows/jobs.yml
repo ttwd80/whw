@@ -76,10 +76,7 @@ jobs:
       - name: Stop tcpdump
         run: sudo kill $(pidof tcpdump)
       - name: assert
-        run: jobs/assert/assert_tcpdump_dns_resolution_count.sh \
-               tcpdump-udp-port-53.txt \
-               www.google.com \
-               9
+        run: jobs/assert/assert_tcpdump_dns_resolution_count.sh tcpdump-udp-port-53.txt www.google.com 9  # yamllint disable-line rule:line-length
 
   verify_browser_dns_cache_miss:
     if: false
