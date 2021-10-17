@@ -49,59 +49,30 @@ jobs:
   verify_browser_dns_cache_hit:
     runs-on: ubuntu-latest
     env:
-      DOCKER_BUILDKIT: 1
-      CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
-      CACHE_LOCATION_RESOLVER: /tmp/.buildx-docker_resolver-cache
+      LOCATION_DEB_CACHE: /tmp/deb-cache
     steps:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Cache docker_client layers
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-docker_client-cache
+          path: /tmp/deb-cache
           key: >
-            cache-${{ hashFiles('**/docker-compose.yml',
-              '**/client/Dockerfile',
-              '/tmp/.buildx-docker_client-cache/**') }}
-      - name: Cache docker_resolver layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-docker_resolver-cache
-          key: >
-            cache-${{ hashFiles('**/docker-compose.yml',
-              '**/resolver/Dockerfile',
-              '/tmp/.buildx-docker_resolver-cache/**') }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        id: buildx
-        with:
-          install: true
-      - name: Build client
-        run: >
-          cd docker/client &&
-          docker buildx build --load -t docker_client \
-            --cache-from type=local,src=${CACHE_LOCATION_CLIENT} \
-            --cache-to type=local,dest=${CACHE_LOCATION_CLIENT}-new .
-      - name: Move cache after client build
+            cache-${{ hashFiles('/tmp/deb-cache/**') }}
+      - name: apt-get update
         run: |
-          rm -rf ${CACHE_LOCATION_CLIENT}
-          mv ${CACHE_LOCATION_CLIENT}-new ${CACHE_LOCATION_CLIENT}
-      - name: Build resolver
-        run: >
-          cd docker/resolver &&
-          docker buildx build --load -t docker_resolver \
-            --cache-from type=local,src=${CACHE_LOCATION_RESOLVER} \
-            --cache-to type=local,dest=${CACHE_LOCATION_RESOLVER}-new .
-      - name: Move cache after resolver build
+          sudo apt-get update -qq
+          sudo apt-get install -qq tcpdump wget
+      - name: Download Google Chrome
+        if: steps.cache-primes.outputs.cache-hit != 'true'
         run: |
-          rm -rf ${CACHE_LOCATION_RESOLVER}
-          mv ${CACHE_LOCATION_RESOLVER}-new ${CACHE_LOCATION_RESOLVER}
-      - name: docker-compose up
-        run: scripts/docker-compose-up.sh
-      - name: verify_browser_dns_cache
-        run: jobs/verify_browser_dns_cache_hit.sh
-      - name: docker-compose down
-        run: scripts/docker-compose-down.sh
+          mkdir -p ${LOCATION_DEB_CACHE}
+          cd ${LOCATION_DEB_CACHE}
+          wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*
+
 
   verify_browser_dns_cache_miss:
     runs-on: ubuntu-latest
