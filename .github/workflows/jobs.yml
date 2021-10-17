@@ -67,6 +67,8 @@ jobs:
         run: sudo pip install selenium
       - name: Run Xvfb
         run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
+      - name: Disable systemd-resolved
+        run: sudo systemctl stop systemd-resolved
       - name: Run tcpdump
         run: (sudo tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
       - name: Run Google Chrome version
@@ -103,6 +105,8 @@ jobs:
         run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
       - name: Run tcpdump
         run: (sudo tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
+      - name: Disable systemd-resolved
+        run: sudo systemctl stop systemd-resolved
       - name: Run Google Chrome version
         run: google-chrome --version
       - name: Run Google Chrome
@@ -137,6 +141,8 @@ jobs:
         run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
       - name: Run tcpdump
         run: (sudo tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
+      - name: Disable systemd-resolved
+        run: sudo systemctl stop systemd-resolved
       - name: Run Google Chrome version
         run: google-chrome --version
       - name: Run Google Chrome
