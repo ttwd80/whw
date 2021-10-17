@@ -26,8 +26,8 @@ $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
 $(dirname "$0")/assert/assert_nscd_host_entry.sh 0
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-no-cache.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
 echo "Killing tcpdump at - $(date)"
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
