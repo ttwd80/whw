@@ -55,13 +55,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Cache debian packages
-        id: cache-debian-packages
-        uses: actions/cache@v2
-        with:
-          path: /tmp/deb-cache
-          key: >
-            cache-${{ hashFiles('/tmp/deb-cache/**') }}
       - name: apt-get
         run: |
           sudo apt-get update -qq
@@ -72,21 +65,18 @@ jobs:
             wget
       - name: pip
         run: sudo pip install selenium
-      - name: Download Google Chrome
-        if: steps.cache-debian-packages.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ${LOCATION_DEB_CACHE}
-          cd ${LOCATION_DEB_CACHE}
-          wget --quiet ${URL_GOOGLE_CHROME_DEB}
       - name: Run Xvfb
         run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
-      - name: Install Google Chrome
-        run: |
-          sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*.deb
+      - name: Run tcpdump
+        run: (tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
       - name: Run Google Chrome version
         run: google-chrome --version
       - name: Run Google Chrome
-        run: python3 ./docker/client/selenium/google-resolve-browser-cache-hit.py
+        run: python3 ./docker/client/selenium/google-resolve-browser-cache-hit.py  # yamllint disable-line rule:line-length
+      - name: Stop tcpdump
+        run: kill $(pidof tcpdump)
+      - name: assert
+        run: cat tcpdump-udp-port-53.txt
 
   verify_browser_dns_cache_miss:
     if: false
