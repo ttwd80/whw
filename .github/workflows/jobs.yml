@@ -103,7 +103,7 @@ jobs:
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
-  verify_browser_dns_cache_miss:
+  verify_browser_dns_cache_miss_process:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
@@ -156,7 +156,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_browser_dns_no_cache
-        run: jobs/verify_browser_dns_cache_miss.sh
+        run: jobs/verify_browser_dns_cache_miss_process.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
