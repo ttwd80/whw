@@ -74,9 +74,15 @@ jobs:
       - name: Install Google Chrome
         run: |
           sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*.deb
+      - name: Run Google Chrome version
+        run: google-chrome --version
+      - name: Run Google Chrome
+        run: google-chrome &
+        
 
 
   verify_browser_dns_cache_miss:
+    if: false
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
@@ -134,6 +140,7 @@ jobs:
         run: scripts/docker-compose-down.sh
 
   verify_nscd_cache_hit:
+    if: false
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
@@ -191,6 +198,7 @@ jobs:
         run: scripts/docker-compose-down.sh
 
   verify_nscd_cache_miss:
+    if: false
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
