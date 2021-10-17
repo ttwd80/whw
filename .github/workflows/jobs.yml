@@ -106,7 +106,9 @@ jobs:
       - name: Run Google Chrome
         run: python3 ./docker/client/selenium/google-resolve-browser-cache-miss-process.py  # yamllint disable-line rule:line-length
       - name: Stop tcpdump
-        run: sudo kill $(pidof tcpdump)
+        run: |
+          sudo kill $(pidof tcpdump)
+          sudo cat tcpdump-udp-port-53.txt
       - name: assert
         run: jobs/assert/assert_tcpdump_dns_resolution_count.sh tcpdump-udp-port-53.txt www.google.com 3  # yamllint disable-line rule:line-length
 
