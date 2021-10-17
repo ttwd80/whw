@@ -51,6 +51,7 @@ jobs:
     env:
       LOCATION_DEB_CACHE: /tmp/deb-cache
       URL_GOOGLE_CHROME_DEB: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb  # yamllint disable-line rule:line-length
+      DISPLAY: :1
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -64,13 +65,18 @@ jobs:
       - name: apt-get update
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -qq tcpdump wget
+          sudo apt-get install -qq \
+            tcpdump \
+            Xvfb \
+            wget
       - name: Download Google Chrome
         if: steps.cache-debian-packages.outputs.cache-hit != 'true'
         run: |
           mkdir -p ${LOCATION_DEB_CACHE}
           cd ${LOCATION_DEB_CACHE}
           wget --quiet ${URL_GOOGLE_CHROME_DEB}
+      - name: Run Xvfb
+        run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
       - name: Install Google Chrome
         run: |
           sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*.deb
@@ -78,8 +84,6 @@ jobs:
         run: google-chrome --version
       - name: Run Google Chrome
         run: google-chrome &
-        
-
 
   verify_browser_dns_cache_miss:
     if: false
