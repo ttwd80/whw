@@ -72,7 +72,7 @@ jobs:
           wget --quiet ${URL_GOOGLE_CHROME_DEB}
       - name: Install Google Chrome
         run: |
-          sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*
+          sudo apt-get install -qq ${LOCATION_DEB_CACHE}/*.deb
 
 
   verify_browser_dns_cache_miss:
