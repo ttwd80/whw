@@ -5,4 +5,6 @@ EXPECTED_COUNT="${3}"
 
 ACTUAL_COUNT="$(cat "${FILENAME}" | cut -b 17- | uniq | grep -w "${TARGET_HOSTNAME}" | grep -w 'A.' |  wc -l | tr -d ' ')"
 
+echo "ACTUAL_COUNT => ${ACTUAL_COUNT}"
+
 test "${EXPECTED_COUNT}" == "${ACTUAL_COUNT}"
