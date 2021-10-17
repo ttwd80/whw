@@ -68,13 +68,13 @@ jobs:
       - name: Run Xvfb
         run: Xvfb ${DISPLAY} -screen 0 1600x1200x24+32 &
       - name: Run tcpdump
-        run: (tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
+        run: (sudo tcpdump -n udp port 53 > tcpdump-udp-port-53.txt) &
       - name: Run Google Chrome version
         run: google-chrome --version
       - name: Run Google Chrome
         run: python3 ./docker/client/selenium/google-resolve-browser-cache-hit.py  # yamllint disable-line rule:line-length
       - name: Stop tcpdump
-        run: kill $(pidof tcpdump)
+        run: sudo kill $(pidof tcpdump)
       - name: assert
         run: cat tcpdump-udp-port-53.txt
 
