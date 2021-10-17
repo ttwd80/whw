@@ -83,7 +83,7 @@ jobs:
       - name: Run Google Chrome version
         run: google-chrome --version
       - name: Run Google Chrome
-        run: google-chrome &
+        run: google-chrome www.google.com
 
   verify_browser_dns_cache_miss:
     if: false
