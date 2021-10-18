@@ -447,7 +447,7 @@ jobs:
           mv ${CACHE_LOCATION_RESOLVER}-new ${CACHE_LOCATION_RESOLVER}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
-      - name: verify_nscd_use_etc_nsswitch.sh
-        run: jobs/verify_nscd_use_etc_nsswitch.sh.sh
+      - name: verify_nscd_use_etc_nsswitch
+        run: jobs/verify_nscd_use_etc_nsswitch.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
