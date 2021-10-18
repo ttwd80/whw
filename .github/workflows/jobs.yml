@@ -338,7 +338,7 @@ jobs:
 
   verify_nscd_use_etc_hosts:
     runs-on: ubuntu-latest
-    if: true
+    if: false
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -391,5 +391,63 @@ jobs:
         run: scripts/docker-compose-up.sh
       - name: verify_nscd_use_etc_hosts
         run: jobs/verify_nscd_use_etc_hosts.sh
+      - name: docker-compose down
+        run: scripts/docker-compose-down.sh
+
+  verify_nscd_use_etc_nsswitch:
+    runs-on: ubuntu-latest
+    if: true
+    env:
+      DOCKER_BUILDKIT: 1
+      CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
+      CACHE_LOCATION_RESOLVER: /tmp/.buildx-docker_resolver-cache
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Cache docker_client layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-docker_client-cache
+          key: >
+            cache-${{ hashFiles('**/docker-compose.yml',
+              '**/client/Dockerfile',
+              '/tmp/.buildx-docker_client-cache/**') }}
+      - name: Cache docker_resolver layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-docker_resolver-cache
+          key: >
+            cache-${{ hashFiles('**/docker-compose.yml',
+              '**/resolver/Dockerfile',
+              '/tmp/.buildx-docker_resolver-cache/**') }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        id: buildx
+        with:
+          install: true
+      - name: Build client
+        run: >
+          cd docker/client &&
+          docker buildx build --load -t docker_client \
+            --cache-from type=local,src=${CACHE_LOCATION_CLIENT} \
+            --cache-to type=local,dest=${CACHE_LOCATION_CLIENT}-new .
+      - name: Move cache after client build
+        run: |
+          rm -rf ${CACHE_LOCATION_CLIENT}
+          mv ${CACHE_LOCATION_CLIENT}-new ${CACHE_LOCATION_CLIENT}
+      - name: Build resolver
+        run: >
+          cd docker/resolver &&
+          docker buildx build --load -t docker_resolver \
+            --cache-from type=local,src=${CACHE_LOCATION_RESOLVER} \
+            --cache-to type=local,dest=${CACHE_LOCATION_RESOLVER}-new .
+      - name: Move cache after resolver build
+        run: |
+          rm -rf ${CACHE_LOCATION_RESOLVER}
+          mv ${CACHE_LOCATION_RESOLVER}-new ${CACHE_LOCATION_RESOLVER}
+      - name: docker-compose up
+        run: scripts/docker-compose-up.sh
+      - name: verify_nscd_use_etc_nsswitch.sh
+        run: jobs/verify_nscd_use_etc_nsswitch.sh.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh

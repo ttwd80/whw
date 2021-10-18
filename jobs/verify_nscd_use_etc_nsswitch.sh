@@ -11,6 +11,10 @@ echo '---'
 echo 'By default, the host we want to resolve does not exist in /etc/hosts.'
 echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
 echo '---'
+echo 'Forcing /etc/nsswitch.conf to use dns first'
+echo 'sed --in-place "s/hosts:.*/hosts: dns files/" /etc/nsswitch.conf' | docker exec -i docker-client-1 su -
+echo 'cat /etc/nsswitch.conf' | docker exec -i docker-client-1 su -
+echo '---'
 echo 'Adding an bad entry for www.google.com in /etc/hosts'
 echo 'echo "8.8.8.8 www.google.com" >> /etc/hosts' | docker exec -i docker-client-1 su -
 echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
