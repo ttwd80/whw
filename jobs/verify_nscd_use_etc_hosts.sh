@@ -37,7 +37,7 @@ cat client-tcpdump.txt | grep -E "\.53:|\.443:"
 
 echo '---'
 echo 'Replace the bad entry for www.google.com in /etc/hosts without restarting nscd'
-echo 'sed --in-place -e "s/8.8.8.8/8.8.4.4/" /etc/hosts' | docker exec -i docker-client-1 su -
+echo '(sed -e "s/8.8.8.8/8.8.4.4/" /etc/hosts > /tmp/hosts) && (cat /tmp/hosts > /etc/hosts)' | docker exec -i docker-client-1 su -
 echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
 echo '---'
 
