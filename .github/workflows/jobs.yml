@@ -48,6 +48,7 @@ jobs:
 
   verify_browser_dns_cache_hit:
     runs-on: ubuntu-latest
+    if: false
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -105,6 +106,7 @@ jobs:
 
   verify_browser_dns_cache_miss_process:
     runs-on: ubuntu-latest
+    if: false
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -162,6 +164,7 @@ jobs:
 
   verify_browser_dns_cache_miss_expire:
     runs-on: ubuntu-latest
+    if: false
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -219,6 +222,7 @@ jobs:
 
   verify_nscd_cache_hit:
     runs-on: ubuntu-latest
+    if: false
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -276,6 +280,7 @@ jobs:
 
   verify_nscd_cache_miss:
     runs-on: ubuntu-latest
+    if: false
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
