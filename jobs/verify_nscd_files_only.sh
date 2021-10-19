@@ -46,7 +46,7 @@ echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
 echo '---'
 
 ((docker exec -t docker-client-1 tcpdump -n) > client-tcpdump.txt)&
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py || true'  | docker exec -i docker-client-1 su - ubuntu
 
 echo "Killing tcpdump at - $(date)"
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
