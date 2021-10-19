@@ -454,7 +454,7 @@ jobs:
 
   verify_nscd_files_only:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
