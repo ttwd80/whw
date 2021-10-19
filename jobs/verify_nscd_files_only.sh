@@ -57,4 +57,4 @@ cat client-tcpdump.txt
 
 echo "Only with port 53 or 443"
 # no requests to resolve www.google.com as this was read from /etc/hosts
-cat client-tcpdump.txt | grep -E "\.53:|\.443:"
+cat client-tcpdump.txt | grep -E "\.53:|\.443:" || true
