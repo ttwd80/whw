@@ -39,6 +39,14 @@ cat client-tcpdump.txt
 echo "Only with port 53 or 443"
 cat client-tcpdump.txt | grep -E "\.53:|\.443:"
 
+# localhost is not resolved using /etc/hosts and we are sending a request to resolve it
+echo "Request to resolve localhost"
+COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "localhost" | wc -l)
+echo "COUNT = [${COUNT}]"
+RESULT=$(echo "${COUNT} > 0" | bc)
+# 0 to force fail
+test "${RESULT}" = "1"
+
 echo '---'
 echo 'Remove the bad entry for www.google.com in /etc/hosts without restarting nscd'
 echo '(sed -e "s/8.8.8.8 www.google.com//" /etc/hosts > /tmp/hosts) && (cat /tmp/hosts > /etc/hosts)' | docker exec -i docker-client-1 su -
