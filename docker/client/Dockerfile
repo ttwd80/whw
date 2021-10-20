@@ -12,7 +12,7 @@ ENV PACAKGES_TO_INSTALL="dnsutils \
 RUN apt-get update -qq
 RUN if test -d /tmp/.deb-client/; then cp /tmp/.deb-client/* /var/cache/apt/archives/; fi 
 RUN apt-get -qq install ${PACAKGES_TO_INSTALL} --download-only
-RUN cp /var/cache/apt/archives/*.deb /tmp/.deb-client/
+RUN ls -l /tmp/ && cp /var/cache/apt/archives/*.deb /tmp/.deb-client/
 RUN DEBIAN_FRONTEND=noninteractive apt-get -qq install ${PACAKGES_TO_INSTALL}
 RUN wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 RUN apt install -y ./google-chrome-stable_current_amd64.deb

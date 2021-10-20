@@ -343,7 +343,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Make client deb cache directory
-        run: mkdir /tmp/.deb-client
+        run: mkdir /tmp/.deb-client/
       - name: Cache apt-packages
         uses: actions/cache@v2
         with:
