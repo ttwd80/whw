@@ -21,10 +21,6 @@ services:
     networks:
       custom:
         ipv4_address: 172.23.0.53
-
-volumes:
-  deb-cache:
-
 networks:
   custom:
     ipam:
