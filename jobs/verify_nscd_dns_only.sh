@@ -42,9 +42,14 @@ cat client-tcpdump.txt | grep -E "\.53:|\.443:"
 # localhost is not resolved using /etc/hosts and we are sending a request to resolve it
 echo "Request to resolve localhost"
 COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "localhost" | wc -l)
-echo "COUNT = [${COUNT}]"
+echo "localhost COUNT = [${COUNT}]"
 RESULT=$(echo "${COUNT} > 0" | bc)
-# 0 to force fail
+test "${RESULT}" = "1"
+
+echo "Request to resolve www.google.com"
+COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "www.google.com" | wc -l)
+echo "www.google.com COUNT = [${COUNT}]"
+RESULT=$(echo "${COUNT} > 0" | bc)
 test "${RESULT}" = "1"
 
 echo '---'
@@ -66,3 +71,15 @@ cat client-tcpdump.txt
 echo "Only with port 53 or 443"
 # no requests to resolve www.google.com as this was read from /etc/hosts
 cat client-tcpdump.txt | grep -E "\.53:|\.443:"
+
+echo "Request to resolve localhost"
+COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "localhost" | wc -l)
+echo "localhost COUNT = [${COUNT}]"
+RESULT=$(echo "${COUNT} == 0" | bc)
+test "${RESULT}" = "1"
+
+echo "Request to resolve www.google.com"
+COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "www.google.com" | wc -l)
+echo "www.google.com COUNT = [${COUNT}]"
+RESULT=$(echo "${COUNT} == 0" | bc)
+test "${RESULT}" = "1"
