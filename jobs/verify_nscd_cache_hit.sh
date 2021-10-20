@@ -15,6 +15,14 @@ docker ps -a
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
+echo '---'
+echo 'By default, files first, then dns.'
+echo 'cat /etc/nsswitch.conf | grep hosts' | docker exec -i docker-client-1 su -
+echo '---'
+echo 'By default, the host we want to resolve does not exist in /etc/hosts.'
+echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
+echo '---'
+
 echo 'echo reload-count 0 >> /etc/nscd.conf'  | docker exec -i docker-client-1 su -
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
