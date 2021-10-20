@@ -339,18 +339,16 @@ jobs:
   verify_nscd_dns_only:
     runs-on: ubuntu-latest
     if: true
-    env:
-      DOCKER_BUILDKIT: 1
-      CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
-      CACHE_LOCATION_RESOLVER: /tmp/.buildx-docker_resolver-cache
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Make client deb cache directory
+        run: mkdir /tmp/.deb-client
       - name: Cache apt-packages
         uses: actions/cache@v2
         with:
-          path: /tmp/.deb
-          key: cache-${{ hashFiles('/tmp/.deb/**') }}
+          path: /tmp/.deb-client
+          key: cache-${{ hashFiles('/tmp/.deb-client/**') }}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: verify_nscd_dns_only
