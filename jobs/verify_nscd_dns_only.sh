@@ -46,6 +46,8 @@ echo "localhost COUNT = [${COUNT}]"
 RESULT=$(echo "${COUNT} > 0" | bc)
 test "${RESULT}" = "1"
 
+# www.google.com exists in /etc/hosts but we are sending requests to resolve it because
+# /etc/nsswitch.conf does not contain a "file" entry for hosts
 echo "Request to resolve www.google.com"
 COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "www.google.com" | wc -l)
 echo "www.google.com COUNT = [${COUNT}]"
@@ -69,7 +71,6 @@ echo "Full tcpdump"
 cat client-tcpdump.txt
 
 echo "Only with port 53 or 443"
-# no requests to resolve www.google.com as this was read from /etc/hosts
 cat client-tcpdump.txt | grep -E "\.53:|\.443:"
 
 echo "Request to resolve localhost"
