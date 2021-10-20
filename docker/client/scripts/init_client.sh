@@ -37,7 +37,7 @@ wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_am
 apt install -y ./google-chrome-stable_current_amd64.deb
 pip install selenium
 
-wget --quiet "https://chromedriver.storage.googleapis.com/94.0.4606.61/chromedriver_linux64.zip"
+wget --quiet "https://chromedriver.storage.googleapis.com/95.0.4638.17/chromedriver_linux64.zip"
 unzip chromedriver_linux64.zip
 chmod a+x chromedriver
 mv chromedriver /usr/local/bin
