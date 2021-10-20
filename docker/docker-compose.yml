@@ -2,6 +2,8 @@
 services:
   client:
     image: ubuntu:20.04
+    environment:
+      - DISPLAY=:1
     volumes:
       - /tmp/.deb-client:/tmp/.deb-client
       - ./client/scripts:/root/scripts

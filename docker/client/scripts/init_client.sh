@@ -12,6 +12,8 @@ PACAKGES_TO_INSTALL="dnsutils \
 DEB_CACHE_LOCATION="/tmp/.deb-client"
 DEB_ARCHIVE_LOCATION="/var/cache/apt/archives"
 
+useradd -m ubuntu
+
 apt-get update -qq
 
 echo "Copying from cache to var"
@@ -40,7 +42,6 @@ unzip chromedriver_linux64.zip
 chmod a+x chromedriver
 mv chromedriver /usr/local/bin
 
-useradd -m ubuntu
 chown -R ubuntu:ubuntu /home/ubuntu
 
 sh $(dirname "$0")/init_etc_resolv_conf.sh
