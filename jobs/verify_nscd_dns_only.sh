@@ -75,11 +75,11 @@ cat client-tcpdump.txt | grep -E "\.53:|\.443:"
 echo "Request to resolve localhost"
 COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "localhost" | wc -l)
 echo "localhost COUNT = [${COUNT}]"
-RESULT=$(echo "${COUNT} == 0" | bc)
+RESULT=$(echo "${COUNT} > 0" | bc)
 test "${RESULT}" = "1"
 
 echo "Request to resolve www.google.com"
 COUNT=$(cat client-tcpdump.txt | grep "\.53:" | grep -w 'A\?' | grep -w "www.google.com" | wc -l)
 echo "www.google.com COUNT = [${COUNT}]"
-RESULT=$(echo "${COUNT} == 0" | bc)
+RESULT=$(echo "${COUNT} > 0" | bc)
 test "${RESULT}" = "1"
