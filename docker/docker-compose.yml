@@ -2,6 +2,8 @@
 services:
   client:
     build: client
+    volumes:
+      - /tmp/.deb:/tmp/.deb
     tty: true
     stdin_open: true
     cap_add:

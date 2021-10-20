@@ -1,8 +1,6 @@
 FROM ubuntu:20.04
 ENV DISPLAY=:1
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -qq install \
-    dnsutils \
+ENV PACAKGES_TO_INSTALL="dnsutils \
     wget \
     sudo \
     xvfb \
@@ -10,7 +8,12 @@ RUN apt-get update && \
     nscd \
     bc \
     python3-pip \
-    tcpdump
+    tcpdump"
+RUN apt-get update -qq
+RUN if test -d /tmp/.deb; then cp /tmp/.deb/* /var/cache/apt/archives/; fi 
+RUN apt-get -qq install ${PACAKGES_TO_INSTALL} --download-only
+RUN cp /tmp/.deb/*.deb /tmp/.deb/
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qq install ${PACAKGES_TO_INSTALL}
 RUN wget --quiet "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 ADD scripts /root/scripts
