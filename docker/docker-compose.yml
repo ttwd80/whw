@@ -1,7 +1,13 @@
 ---
 services:
   client:
-    build: client
+    image: ubuntu:20.04
+    environment:
+      - DISPLAY=:1
+    volumes:
+      - /tmp/.deb-client:/tmp/.deb-client
+      - ./client/scripts:/root/scripts
+      - ./client/selenium:/home/ubuntu/selenium
     tty: true
     stdin_open: true
     cap_add:
@@ -17,7 +23,6 @@ services:
     networks:
       custom:
         ipv4_address: 172.23.0.53
-
 networks:
   custom:
     ipam:
