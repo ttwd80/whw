@@ -363,7 +363,7 @@ jobs:
           key: cache-deb-v100-${{ steps.google-chrome-deb-hash.outputs.hash }}
       - name: Setting dependency cache
         # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 bash /home/root/scripts/setup_client.sh
+        run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
