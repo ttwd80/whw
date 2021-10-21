@@ -351,8 +351,6 @@ jobs:
           key: cache-${{ hashFiles('/tmp/.deb-client/**') }}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
-      - name: Init client
-        run: docker exec -t docker-client-1 bash /root/scripts/init_client.sh
       - name: verify_nscd_dns_only
         run: jobs/verify_nscd_dns_only.sh
       - name: docker-compose down
