@@ -220,6 +220,43 @@ jobs:
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
+  verify_browser_host_resolver_rules:
+    runs-on: ubuntu-latest
+    if: true
+    env:
+      # yamllint disable-line rule:line-length
+      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Prepare cache directory
+        run: mkdir ${CLIENT_DEB_CACHE_DIR}
+      - name: docker-compose up
+        run: scripts/docker-compose-up.sh
+      - name: Bootstrap client
+        # yamllint disable-line rule:line-length
+        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+      - name: Get Google Chrome deb hash(last modified date)
+        id: google-chrome-deb-hash
+        # yamllint disable-line rule:line-length
+        run: echo "::set-output name=hash::$(curl --silent --head ${GOOGLE_CHROME_URL} | grep -i "last-modified:" | md5sum | cut -b 1-6)-$(curl --silent 'https://chromedriver.chromium.org/downloads' | grep -o 'href="https://[^\"]*"' | grep path | grep -o '[0-9][0-9\.]*' | head -1 | md5sum | cut -b 1-6)"
+      - name: Restore Cache
+        id: restore-cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.CLIENT_DEB_CACHE_DIR }}
+          key: cache-deb-${{ steps.google-chrome-deb-hash.outputs.hash }}
+      - name: Setting dependency cache
+        # yamllint disable-line rule:line-length
+        run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
+      - name: Init client
+        run: docker exec -i docker-client-1 bash /root/scripts/verify_browser_host_resolver_rules.sh
+      - name: verify_browser_host_resolver_rules
+        run: jobs/verify_browser_host_resolver_rules.sh
+      - name: docker-compose down
+        run: scripts/docker-compose-down.sh
+
   verify_nscd_cache_hit:
     runs-on: ubuntu-latest
     if: false
@@ -338,7 +375,7 @@ jobs:
 
   verify_nscd_dns_only:
     runs-on: ubuntu-latest
-    if: true
+    if: false
     env:
       # yamllint disable-line rule:line-length
       GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
