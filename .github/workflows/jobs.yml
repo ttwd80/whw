@@ -368,7 +368,7 @@ jobs:
         run: scripts/docker-compose-down.sh
       - name: check cache dir
         # yamllint disable-line rule:line-length
-        run: sudo chmod -R ugo+r runner:docker "${CLIENT_DEB_CACHE_DIR}"  && ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
+        run: sudo chmod -R ugo+r "${CLIENT_DEB_CACHE_DIR}"  && ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
 
   verify_nscd_use_etc_hosts:
     runs-on: ubuntu-latest
