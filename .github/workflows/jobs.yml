@@ -354,9 +354,6 @@ jobs:
       - name: Bootstrap client
         # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
-      - name: Inspect cache directory
-        # yamllint disable-line rule:line-length
-        run: ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -372,9 +369,6 @@ jobs:
         run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
-      - name: check cache dir
-        # yamllint disable-line rule:line-length
-        run: sudo chmod -R ugo+r "${CLIENT_DEB_CACHE_DIR}"  && ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
 
   verify_nscd_use_etc_hosts:
     runs-on: ubuntu-latest
