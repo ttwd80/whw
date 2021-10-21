@@ -340,8 +340,6 @@ jobs:
     runs-on: ubuntu-latest
     if: true
     env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code

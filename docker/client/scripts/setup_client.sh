@@ -1,5 +1,6 @@
 #!/bin/bash -e
 TMP_TARGET_DIR="${1}"
+GOOGLE_CHROME_URL="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 DEB_TARGET_DIR="/var/cache/apt/archives"
 echo "TMP_TARGET_DIR => [${TMP_TARGET_DIR}]"
 echo "GOOGLE_CHROME_URL => [${GOOGLE_CHROME_URL}]"
