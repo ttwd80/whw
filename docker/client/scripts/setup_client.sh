@@ -5,7 +5,7 @@ DEB_TARGET_DIR="/var/cache/apt/archives"
 echo "TMP_TARGET_DIR => [${TMP_TARGET_DIR}]"
 echo "GOOGLE_CHROME_URL => [${GOOGLE_CHROME_URL}]"
 GOOGLE_CHROME_FILENAME=$(echo ${GOOGLE_CHROME_URL} | sed 's|^.*/||g')
-PACKAGES_TO_INSTALL="$($(dirname "$0")/packages-to-install.txt)"
+PACKAGES_TO_INSTALL="$(cat $(dirname "$0")/packages-to-install.txt)"
 GOOGLE_CHROME_DRIVER_LISTING_URL="https://chromedriver.chromium.org/downloads"
 GOOGLE_CHROME_DRIVER_BINARY_FILENAME="chromedriver"
 
