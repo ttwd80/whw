@@ -339,20 +339,29 @@ jobs:
   verify_nscd_dns_only:
     runs-on: ubuntu-latest
     if: true
+    env:
+      # yamllint disable-line rule:line-length
+      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Make client deb cache directory
-        run: mkdir /tmp/.deb-client/
-      - name: Cache apt-packages
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.deb-client
-          key: cache-${{ hashFiles('*.deb') }}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
-      - name: Init client
-        run: docker exec -t docker-client-1 bash /root/scripts/init_client.sh
+      - name: Bootstrap client
+        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+      - name: Get Google Chrome deb hash(last modified date)
+        id: google-chrome-deb-hash
+        # yamllint disable-line rule:line-length
+        run: echo "::set-output name=hash::$(curl --silent --head ${GOOGLE_CHROME_URL} | grep -i "last-modified:" | md5sum | cut -b 1-6)-$(curl --silent 'https://chromedriver.chromium.org/downloads' | grep -o 'href="https://[^\"]*"' | grep path | grep -o '[0-9][0-9\.]*' | head -1 | md5sum | cut -b 1-6)"
+      - name: Restore Cache
+        id: restore-cache
+        uses: actions/cache@v2
+        with:
+          path: ${CLIENT_DEB_CACHE_DIR}
+          key: cache-deb-v100-${{ steps.google-chrome-deb-hash.outputs.hash }}
+      - name: Setting dependency cache
+        run: docker exec -i docker-client-1 bash /home/root/scripts/setup_client.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
