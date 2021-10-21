@@ -351,6 +351,9 @@ jobs:
       - name: Bootstrap client
         # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+      - name: look at file permission
+        # yamllint disable-line rule:line-length
+        run: ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
