@@ -348,7 +348,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.deb-client
-          key: cache-${{ hashFiles('/tmp/.deb-client/**') }}
+          key: cache-${{ hashFiles('*.deb') }}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Init client
