@@ -346,12 +346,15 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Prepare cache directory
+        # yamllint disable-line rule:line-length
+        run: mkdir ${CLIENT_DEB_CACHE_DIR}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
         # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
-      - name: look at file permission
+      - name: Inspect cache directory
         # yamllint disable-line rule:line-length
         run: ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
       - name: Get Google Chrome deb hash(last modified date)
