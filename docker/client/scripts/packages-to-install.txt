@@ -1,0 +1,7 @@
+dnsutils
+sudo
+xvfb
+nscd
+bc
+python3-pip
+tcpdump
