@@ -360,7 +360,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.CLIENT_DEB_CACHE_DIR }}
-          key: cache-deb-v103-${{ steps.google-chrome-deb-hash.outputs.hash }}
+          key: cache-deb-v104-${{ steps.google-chrome-deb-hash.outputs.hash }}
       - name: Setting dependency cache
         # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
@@ -368,7 +368,7 @@ jobs:
         run: scripts/docker-compose-down.sh
       - name: check cache dir
         # yamllint disable-line rule:line-length
-        run: touch /tmp/new-file && ls -l /tmp/new-file && whoami && groups && ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
+        run: sudo chown -R runner:docker "${CLIENT_DEB_CACHE_DIR}" && whoami && groups && ls -ld "${CLIENT_DEB_CACHE_DIR}" && ls -l "${CLIENT_DEB_CACHE_DIR}"
 
   verify_nscd_use_etc_hosts:
     runs-on: ubuntu-latest
