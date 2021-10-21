@@ -251,7 +251,7 @@ jobs:
         # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
       - name: Init client
-        run: docker exec -i docker-client-1 bash /root/scripts/verify_browser_host_resolver_rules.sh
+        run: docker exec -i docker-client-1 bash /root/scripts/init_client.sh
       - name: verify_browser_host_resolver_rules
         run: jobs/verify_browser_host_resolver_rules.sh
       - name: docker-compose down
