@@ -367,8 +367,9 @@ jobs:
         # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
       - name: Init client
-        # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 bash /root/scripts/init_client.sh
+      - name: verify_nscd_dns_only
+        run: jobs/verify_nscd_dns_only.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
 
