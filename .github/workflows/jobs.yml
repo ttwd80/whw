@@ -349,6 +349,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
+        # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
@@ -361,6 +362,7 @@ jobs:
           path: ${CLIENT_DEB_CACHE_DIR}
           key: cache-deb-v100-${{ steps.google-chrome-deb-hash.outputs.hash }}
       - name: Setting dependency cache
+        # yamllint disable-line rule:line-length
         run: docker exec -i docker-client-1 bash /home/root/scripts/setup_client.sh
       - name: docker-compose down
         run: scripts/docker-compose-down.sh
