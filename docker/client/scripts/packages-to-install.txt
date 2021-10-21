@@ -5,3 +5,4 @@ nscd
 bc
 python3-pip
 tcpdump
+unzip

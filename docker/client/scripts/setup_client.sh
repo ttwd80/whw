@@ -16,7 +16,7 @@ then
   echo "Using cached download: ${GOOGLE_CHROME_URL}"
   USING_CACHE="yes"
 else
-  wget ${GOOGLE_CHROME_URL}
+  wget -q ${GOOGLE_CHROME_URL}
   USING_CACHE="no"
 fi
 
@@ -47,7 +47,7 @@ then
   GOOGLE_CHROME_DRIVER_FILENAME=chromedriver_linux64.zip
   GOOGLE_CHROME_DRIVER_URL="https://chromedriver.storage.googleapis.com/${GOOGLE_CHROME_DRIVER_VERSION}/${GOOGLE_CHROME_DRIVER_FILENAME}"
   echo "GOOGLE_CHROME_DRIVER_URL => [${GOOGLE_CHROME_DRIVER_URL}]"
-  wget "${GOOGLE_CHROME_DRIVER_URL}"
+  wget -q "${GOOGLE_CHROME_DRIVER_URL}"
   unzip "${GOOGLE_CHROME_DRIVER_FILENAME}"
   rm ${GOOGLE_CHROME_DRIVER_FILENAME}
 fi
