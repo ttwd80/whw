@@ -2,8 +2,6 @@
 
 docker ps -a
 
-((docker exec -t docker-client-1 tcpdump -n) > client-tcpdump.txt)&
-
 echo '---'
 echo 'By default, files first, then dns.'
 echo 'cat /etc/nsswitch.conf | grep hosts' | docker exec -i docker-client-1 su -
@@ -27,7 +25,9 @@ echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 
-echo 'whoami && DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+((docker exec -t docker-client-1 tcpdump -n) > client-tcpdump.txt)&
+
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
 echo "Killing tcpdump at - $(date)"
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
@@ -61,6 +61,7 @@ echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
 echo '---'
 
 ((docker exec -t docker-client-1 tcpdump -n) > client-tcpdump.txt)&
+
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
 echo "Killing tcpdump at - $(date)"
