@@ -54,7 +54,12 @@ $(dirname "$0")/assert/assert_nscd_host_entry.sh 0
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 
 # First set of requests to https://www.google.com/
+
+dig www.google.com +noall +answer
+
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
 
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 1
@@ -70,7 +75,7 @@ $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
 $(dirname "$0")/assert/assert_nscd_host_entry.sh 1 # contains expired
 
 # Another set of requests to https://www.google.com/
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-expire.py'  | docker exec -i docker-client-1 su - ubuntu
 
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 2
