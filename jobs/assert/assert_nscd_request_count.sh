@@ -1,5 +1,6 @@
 #!/bin/bash -e
 EXPECTED_COUNT="${1}"
+cat client-tcpdump.txt | cut -b 17- | uniq | grep -w 'www.google.com.' | grep -w 'A.'
 REQUEST_COUNT=$(cat client-tcpdump.txt | cut -b 17- | uniq | grep -w 'www.google.com.' | grep -w 'A.' |  wc -l | tr -d ' ' )
 
 # test

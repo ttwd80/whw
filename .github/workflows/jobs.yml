@@ -15,6 +15,11 @@ on:  # yamllint disable-line rule:truthy
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  # yamllint disable-line rule:line-length
+  GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
+
 jobs:
   lint_markdown:
     runs-on: ubuntu-latest
@@ -51,10 +56,6 @@ jobs:
   verify_browser_dns_cache_hit:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -63,8 +64,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -88,10 +88,6 @@ jobs:
   verify_browser_dns_cache_miss_expire:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -100,8 +96,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -125,10 +120,6 @@ jobs:
   verify_browser_dns_cache_miss_process:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -137,8 +128,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -162,10 +152,6 @@ jobs:
   verify_browser_host_resolver_rules:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -174,8 +160,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -199,10 +184,6 @@ jobs:
   verify_nscd_cache_hit:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -211,8 +192,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -236,10 +216,6 @@ jobs:
   verify_nscd_cache_miss:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -248,8 +224,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -273,10 +248,6 @@ jobs:
   verify_nscd_dns_only:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -285,8 +256,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -310,10 +280,6 @@ jobs:
   verify_nscd_empty:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -322,8 +288,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -347,10 +312,6 @@ jobs:
   verify_nscd_files_only:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -359,12 +320,10 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
-        # yamllint disable-line rule:line-length
-        run: echo "::set-output name=hash::$(curl --silent --head ${GOOGLE_CHROME_URL} | grep -i "last-modified:" | md5sum | cut -b 1-6)-$(curl --silent 'https://chromedriver.chromium.org/downloads' | grep -o 'href="https://[^\"]*"' | grep path | grep -o '[0-9][0-9\.]*' | head -1 | md5sum | cut -b 1-6)"
+        run: sh ./scripts/client-deb-cache-key.sh "${GOOGLE_CHROME_URL}"
       - name: Restore Cache
         id: restore-cache
         uses: actions/cache@v2
@@ -384,10 +343,6 @@ jobs:
   verify_nscd_use_etc_hosts:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -396,8 +351,7 @@ jobs:
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
-        # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+        run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         # yamllint disable-line rule:line-length
@@ -421,10 +375,6 @@ jobs:
   verify_nscd_use_etc_nsswitch:
     runs-on: ubuntu-latest
     if: true
-    env:
-      # yamllint disable-line rule:line-length
-      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -436,8 +386,7 @@ jobs:
         run: sh ./scripts/client-bootstrap.sh
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
-        # yamllint disable-line rule:line-length
-        run: echo "::set-output name=hash::$(curl --silent --head ${GOOGLE_CHROME_URL} | grep -i "last-modified:" | md5sum | cut -b 1-6)-$(curl --silent 'https://chromedriver.chromium.org/downloads' | grep -o 'href="https://[^\"]*"' | grep path | grep -o '[0-9][0-9\.]*' | head -1 | md5sum | cut -b 1-6)"
+        run: sh ./scripts/client-deb-cache-key.sh "${GOOGLE_CHROME_URL}"
       - name: Restore Cache
         id: restore-cache
         uses: actions/cache@v2
