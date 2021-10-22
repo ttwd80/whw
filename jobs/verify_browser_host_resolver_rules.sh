@@ -17,7 +17,7 @@ echo "Full tcpdump"
 cat client-tcpdump.txt
 
 echo "Only with port 53 and host 1.1.1.1"
-cat client-tcpdump.txt | grep "53: |1\.1\.1\.1"
+cat client-tcpdump.txt | grep -E "53: |1\.1\.1\.1"
 
 # verify
 echo "Verify DNS resolution count..."
