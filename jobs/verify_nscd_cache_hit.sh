@@ -37,9 +37,9 @@ $(dirname "$0")/assert/assert_nscd_host_entry.sh 0
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
-
-cat /var/log/nscd.log
+echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
 
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
 
