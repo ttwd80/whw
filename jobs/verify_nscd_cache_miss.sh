@@ -41,7 +41,7 @@ echo 'By default, the host we want to resolve does not exist in /etc/hosts.'
 echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
 echo '---'
 
-echo 'echo reload-count 0 >> /etc/nscd.conf'  | docker exec -i docker-client-1 su -
+echo 'sed --in-place -e "/^.*debug-level/s/0/2/" -e "/^#.*reload-count.*[0-9]$/s/[0-9]*$/0/;/^#.*reload-count.*0$/s/#//" -e "/^#.*logfile.*log$/s/#//" /etc/nscd.conf'  | docker exec -i docker-client-1 su -
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
 echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
@@ -54,8 +54,6 @@ $(dirname "$0")/assert/assert_nscd_host_entry.sh 0
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 
 # First set of requests to https://www.google.com/
-
-dig www.google.com
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
@@ -68,15 +66,16 @@ $(dirname "$0")/assert/assert_nscd_host_entry.sh 1
 # invalidate hosts
 echo 'nscd --invalidate=hosts'  | docker exec -i docker-client-1 su -
 
+cat /var/log/nscd.log
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 1
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
 $(dirname "$0")/assert/assert_nscd_host_entry.sh 1 # contains expired
 
 # Another set of requests to https://www.google.com/
-dig www.google.com
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-expire.py'  | docker exec -i docker-client-1 su - ubuntu
 
+cat /var/log/nscd.log
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 2
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
