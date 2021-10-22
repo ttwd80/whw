@@ -395,7 +395,7 @@ jobs:
           key: cache-deb-${{ steps.google-chrome-deb-hash.outputs.hash }}
       - name: Setting dependency cache
         # yamllint disable-line rule:line-length
-        run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
+        run: sh ./scripts/client-setup.sh
       - name: Init client
         run: docker exec -i docker-client-1 bash /root/scripts/init_client.sh
       - name: verify_nscd_use_etc_nsswitch
