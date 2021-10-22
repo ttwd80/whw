@@ -50,7 +50,7 @@ jobs:
 
   verify_browser_dns_cache_hit:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -108,7 +108,7 @@ jobs:
 
   verify_browser_dns_cache_miss_expire:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -166,7 +166,7 @@ jobs:
 
   verify_browser_dns_cache_miss_process:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -261,7 +261,7 @@ jobs:
 
   verify_nscd_cache_hit:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -319,7 +319,7 @@ jobs:
 
   verify_nscd_cache_miss:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -377,7 +377,7 @@ jobs:
 
   verify_nscd_dns_only:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       # yamllint disable-line rule:line-length
       GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -414,7 +414,7 @@ jobs:
 
   verify_nscd_use_etc_hosts:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -472,7 +472,7 @@ jobs:
 
   verify_nscd_use_etc_nsswitch:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -530,7 +530,7 @@ jobs:
 
   verify_nscd_files_only:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
@@ -588,7 +588,7 @@ jobs:
 
   verify_nscd_empty:
     runs-on: ubuntu-latest
-    if: false
+    if: true
     env:
       DOCKER_BUILDKIT: 1
       CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
