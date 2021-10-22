@@ -16,8 +16,8 @@ docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
 echo "Full tcpdump"
 cat client-tcpdump.txt
 
-echo "Only with port 53"
-cat client-tcpdump.txt | grep "53:"
+echo "Only with port 53 and host 1.1.1.1"
+cat client-tcpdump.txt | grep "53: |1\.1\.1\.1"
 
 # verify
 echo "Verify DNS resolution count..."
