@@ -37,7 +37,7 @@ docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
-echo 'nscd -g'  | docker exec -i docker-client-1 su -
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
 
 echo "Killing tcpdump at - $(date)"
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
