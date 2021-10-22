@@ -57,7 +57,13 @@ docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google
 
 # First set of requests to https://www.google.com/
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+echo "Killing tcpdump at - $(date)"
+PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
+docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
+echo "/var/log/nscd.log:"
 echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
+echo "Full tcpdump"
+cat client-tcpdump.txt
 
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 1
@@ -67,28 +73,28 @@ $(dirname "$0")/assert/assert_nscd_host_entry.sh 1
 # invalidate hosts
 echo 'nscd --invalidate=hosts'  | docker exec -i docker-client-1 su -
 
-cat /var/log/nscd.log
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 1
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
 $(dirname "$0")/assert/assert_nscd_host_entry.sh 1 # contains expired
 
 # Another set of requests to https://www.google.com/
+((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
+
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-expire.py'  | docker exec -i docker-client-1 su - ubuntu
+
+echo "Killing tcpdump at - $(date)"
+PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
+docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
+echo "/var/log/nscd.log:"
 echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
+echo "Full tcpdump"
+cat client-tcpdump.txt
 
 # verify
 $(dirname "$0")/assert/assert_nscd_request_count.sh 2
 $(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
 $(dirname "$0")/assert/assert_nscd_host_entry.sh 1
-
-
-echo "Killing tcpdump at - $(date)"
-PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
-docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
-
-echo "Full tcpdump"
-cat client-tcpdump.txt
 
 echo "Only with port 53"
 cat client-tcpdump.txt | grep "\.53:"
