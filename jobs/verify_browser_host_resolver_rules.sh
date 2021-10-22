@@ -5,7 +5,7 @@
 
 docker ps -a
 
-((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
+((docker exec -t docker-client-1 tcpdump -n udp or host 1.1.1.1) > client-tcpdump.txt)&
 
 docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-host-resolver-rules.py'  | docker exec -i docker-client-1 su - ubuntu
