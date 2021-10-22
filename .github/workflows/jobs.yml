@@ -200,55 +200,34 @@ jobs:
     runs-on: ubuntu-latest
     if: true
     env:
-      DOCKER_BUILDKIT: 1
-      CACHE_LOCATION_CLIENT: /tmp/.buildx-docker_client-cache
-      CACHE_LOCATION_RESOLVER: /tmp/.buildx-docker_resolver-cache
+      # yamllint disable-line rule:line-length
+      GOOGLE_CHROME_URL: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      CLIENT_DEB_CACHE_DIR: /tmp/.deb-client
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Cache docker_client layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-docker_client-cache
-          key: >
-            cache-${{ hashFiles('**/docker-compose.yml',
-              '**/client/Dockerfile',
-              '/tmp/.buildx-docker_client-cache/**') }}
-      - name: Cache docker_resolver layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-docker_resolver-cache
-          key: >
-            cache-${{ hashFiles('**/docker-compose.yml',
-              '**/resolver/Dockerfile',
-              '/tmp/.buildx-docker_resolver-cache/**') }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        id: buildx
-        with:
-          install: true
-      - name: Build client
-        run: >
-          cd docker/client &&
-          docker buildx build --load -t docker_client \
-            --cache-from type=local,src=${CACHE_LOCATION_CLIENT} \
-            --cache-to type=local,dest=${CACHE_LOCATION_CLIENT}-new .
-      - name: Move cache after client build
-        run: |
-          rm -rf ${CACHE_LOCATION_CLIENT}
-          mv ${CACHE_LOCATION_CLIENT}-new ${CACHE_LOCATION_CLIENT}
-      - name: Build resolver
-        run: >
-          cd docker/resolver &&
-          docker buildx build --load -t docker_resolver \
-            --cache-from type=local,src=${CACHE_LOCATION_RESOLVER} \
-            --cache-to type=local,dest=${CACHE_LOCATION_RESOLVER}-new .
-      - name: Move cache after resolver build
-        run: |
-          rm -rf ${CACHE_LOCATION_RESOLVER}
-          mv ${CACHE_LOCATION_RESOLVER}-new ${CACHE_LOCATION_RESOLVER}
+      - name: Prepare cache directory
+        run: mkdir ${CLIENT_DEB_CACHE_DIR}
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
+      - name: Bootstrap client
+        # yamllint disable-line rule:line-length
+        run: docker exec -i docker-client-1 sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install curl wget coreutils -qq'
+      - name: Get Google Chrome deb hash(last modified date)
+        id: google-chrome-deb-hash
+        # yamllint disable-line rule:line-length
+        run: echo "::set-output name=hash::$(curl --silent --head ${GOOGLE_CHROME_URL} | grep -i "last-modified:" | md5sum | cut -b 1-6)-$(curl --silent 'https://chromedriver.chromium.org/downloads' | grep -o 'href="https://[^\"]*"' | grep path | grep -o '[0-9][0-9\.]*' | head -1 | md5sum | cut -b 1-6)"
+      - name: Restore Cache
+        id: restore-cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.CLIENT_DEB_CACHE_DIR }}
+          key: cache-deb-${{ steps.google-chrome-deb-hash.outputs.hash }}
+      - name: Setting dependency cache
+        # yamllint disable-line rule:line-length
+        run: docker exec -i docker-client-1 bash /root/scripts/setup_client.sh "${CLIENT_DEB_CACHE_DIR}" "${GOOGLE_CHROME_URL}"
+      - name: Init client
+        run: docker exec -i docker-client-1 bash /root/scripts/init_client.sh
       - name: verify_nscd_cache_hit
         run: jobs/verify_nscd_cache_hit.sh
       - name: docker-compose down
