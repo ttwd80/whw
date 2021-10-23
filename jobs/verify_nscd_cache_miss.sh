@@ -1,36 +1,6 @@
 #!/bin/bash -e
 
-# If a nscd is running, Google Chrome will try to get a cached value from nscd
-
-# 2 tests before the first browser requests https://www.google.com/favicon.ico
-# - 0 current number of cached values reported by nscd -g
-# - NSCD_HOSTS_ENTRY should be 0
-
-# First set of requests to https://www.google.com/favicon.ico
-
-# Verify:
-# - 1 DNS request uncached
-# - Cached entry count > 0 (www.google.com,  accounts.google.com, etc)
-# - www.google.com should be in /var/cache/nscd/hosts
-
-# invalidate the hosts cache
-# nscd --invalidate=hosts
-
-# Verify
-# - 1 DNS request uncached - unchanged
-# - Cached entry count == 0
-# - www.google.com should NOT be in /var/cache/nscd/hosts
-
-# Another set of requests to https://www.google.com/
-
-# Verify
-# - 2 DNS request uncached - increased
-# - Cached entry count == 1
-# - www.google.com should be in /var/cache/nscd/hosts
-
-
 docker ps -a
-
 
 echo '---'
 echo 'By default, files first, then dns.'
@@ -65,7 +35,7 @@ echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
 
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-expire.py'  | docker exec -i docker-client-1 su - ubuntu
 
 echo "Killing tcpdump at - $(date)"
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
