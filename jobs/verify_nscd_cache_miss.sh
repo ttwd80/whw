@@ -31,7 +31,6 @@
 
 docker ps -a
 
-((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
 echo '---'
 echo 'By default, files first, then dns.'
@@ -48,53 +47,72 @@ echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
 echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 
-# Show nscd information before requests are made
-$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
 
-$(dirname "$0")/assert/assert_nscd_host_entry.sh 0
 
-docker exec -t docker-client-1 sh -c 'echo Google Chrome version : $(echo google-chrome --version | su - ubuntu)'
+# begin
 
-# First set of requests to https://www.google.com/
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
-echo "Killing tcpdump at - $(date)"
-PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
-docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
-echo "/var/log/nscd.log:"
-echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
-echo "Full tcpdump"
-cat client-tcpdump.txt
+# show nscd stats
+# show nscd log
+# start tcpdump
+# run selenium
+# stop tcpdump
+# full tcpdump
+# filtered tcpdump
+# show nscd log
+# show nscd stats
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
+echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
 
-# verify
-$(dirname "$0")/assert/assert_nscd_request_count.sh 1
-$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
-$(dirname "$0")/assert/assert_nscd_host_entry.sh 1
-
-# invalidate hosts
-echo 'nscd --invalidate=hosts'  | docker exec -i docker-client-1 su -
-
-# verify
-$(dirname "$0")/assert/assert_nscd_request_count.sh 1
-$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh "=="
-$(dirname "$0")/assert/assert_nscd_host_entry.sh 1 # contains expired
-
-# Another set of requests to https://www.google.com/
 ((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
-echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-expire.py'  | docker exec -i docker-client-1 su - ubuntu
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
 echo "Killing tcpdump at - $(date)"
 PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
 docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
-echo "/var/log/nscd.log:"
-echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su -
+
 echo "Full tcpdump"
 cat client-tcpdump.txt
 
-# verify
-$(dirname "$0")/assert/assert_nscd_request_count.sh 2
-$(dirname "$0")/assert/assert_nscd_cached_entry_count.sh ">"
-$(dirname "$0")/assert/assert_nscd_host_entry.sh 1
+echo "Only with port 53"
+cat client-tcpdump.txt | grep -E "\.53: "
+
+echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
+
+# end
+
+echo 'scd --invalidate=hosts'  | docker exec -i docker-client-1 su -
+
+# begin
+
+# show nscd stats
+# show nscd log
+# start tcpdump
+# run selenium
+# stop tcpdump
+# full tcpdump
+# filtered tcpdump
+# show nscd log
+# show nscd stats
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
+echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
+
+((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
+
+echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
+
+echo "Killing tcpdump at - $(date)"
+PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
+docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
+
+echo "Full tcpdump"
+cat client-tcpdump.txt
 
 echo "Only with port 53"
-cat client-tcpdump.txt | grep "\.53:"
+cat client-tcpdump.txt | grep -E "\.53: "
+
+echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
+echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
+# end
+
