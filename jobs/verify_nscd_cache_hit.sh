@@ -23,7 +23,7 @@ echo 'By default, the host we want to resolve does not exist in /etc/hosts.'
 echo 'cat /etc/hosts' | docker exec -i docker-client-1 su -
 echo '---'
 
-echo 'sed --in-place -e "/^.*debug-level/s/0/2/" -e "/^#.*reload-count.*[0-9]$/s/[0-9]*$/0/;/^#.*reload-count.*0$/s/#//" -e "/^#.*logfile.*log$/s/#//" /etc/nscd.conf' | docker exec -i docker-client-1 su -
+echo 'sed --in-place -e "/^.*debug-level/s/0/10/" -e "/^#.*reload-count.*[0-9]$/s/[0-9]*$/0/;/^#.*reload-count.*0$/s/#//" -e "/^#.*logfile.*log$/s/#//" /etc/nscd.conf' | docker exec -i docker-client-1 su -
 echo 'cat /etc/nscd.conf | grep -E "debug-level|reload-count|logfile" | grep -v "^#"' | docker exec -i docker-client-1 su -
 
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
