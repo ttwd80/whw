@@ -21,6 +21,8 @@ echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 
 # begin
 
+((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
+
 # show nscd stats
 # show nscd log
 # start tcpdump
@@ -33,13 +35,7 @@ echo '/etc/init.d/nscd status'  | docker exec -i docker-client-1 su -
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
 echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
 
-((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
-
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-expire.py'  | docker exec -i docker-client-1 su - ubuntu
-
-echo "Killing tcpdump at - $(date)"
-PID_TCPDUMP=$(docker exec -t docker-client-1 pidof tcpdump)
-docker exec -t docker-client-1 sh -c "kill $PID_TCPDUMP"
 
 echo "Full tcpdump"
 cat client-tcpdump.txt
@@ -56,7 +52,6 @@ echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 2
 
 # show nscd stats
 # show nscd log
-# start tcpdump
 # run selenium
 # stop tcpdump
 # full tcpdump
@@ -65,8 +60,6 @@ echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 2
 # show nscd stats
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
 echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
-
-((docker exec -t docker-client-1 tcpdump -n udp) > client-tcpdump.txt)&
 
 echo 'DISPLAY=:1 python3 /home/ubuntu/selenium/google-resolve-browser-cache-miss-process.py'  | docker exec -i docker-client-1 su - ubuntu
 
@@ -83,4 +76,3 @@ cat client-tcpdump.txt | grep -E "\.53: "
 echo 'cat /var/log/nscd.log'  | docker exec -i docker-client-1 su - 
 echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 22
 # end
-
