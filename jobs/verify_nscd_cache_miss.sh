@@ -82,7 +82,7 @@ echo 'nscd -g'  | docker exec -i docker-client-1 su - | grep "hosts cache:" -A 2
 
 # end
 
-echo 'scd --invalidate=hosts'  | docker exec -i docker-client-1 su -
+echo 'nscd --invalidate=hosts'  | docker exec -i docker-client-1 su -
 
 # begin
 
