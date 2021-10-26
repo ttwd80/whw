@@ -1,7 +1,7 @@
 ---
 services:
   client:
-    image: ubuntu:20.04
+    image: ubuntu:21.10
     environment:
       - DISPLAY=:1
     volumes:
