@@ -450,7 +450,7 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 
       if (he == NULL) {
 	dbg_log (_("Haven't found \"%s\" in hosts cache!"), (char *) str);
-	dbg_log (_("CHECKPOING HSTCACHE"), (char *) key);
+	dbg_log (_("CHECKPOING HSTCACHE: \"%s\""), (char *) key);
 	}
       else
 	dbg_log (_("Reloading \"%s\" in hosts cache!"), (char *) str);

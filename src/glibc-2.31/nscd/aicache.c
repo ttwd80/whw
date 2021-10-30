@@ -80,7 +80,7 @@ addhstaiX (struct database_dyn *db, int fd, request_header *req,
     {
       if (he == NULL) {
 	dbg_log (_("Haven't found \"%s\" in hosts cache!"), (char *) key);
-	dbg_log (_("CHECKPOING AICACHE"), (char *) key);
+	dbg_log (_("CHECKPOING AICACHE: \"%s\""), (char *) key);
 	}
       else
 	dbg_log (_("Reloading \"%s\" in hosts cache!"), (char *) key);
