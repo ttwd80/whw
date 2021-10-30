@@ -488,6 +488,9 @@ void
 addhstbyname (struct database_dyn *db, int fd, request_header *req,
 	      void *key, uid_t uid)
 {
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.addhstbyname: \"%s\""), (char *) key);  
+  }	
   addhstbyX (db, fd, req, key, uid, NULL, NULL);
 }
 
@@ -502,6 +505,9 @@ readdhstbyname (struct database_dyn *db, struct hashentry *he,
       .key_len = he->len
     };
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.readdhstbyname: \"%s\""), (char *) (db->data + he->key));  
+  }	
   return addhstbyX (db, -1, &req, db->data + he->key, he->owner, he, dh);
 }
 
@@ -510,6 +516,9 @@ void
 addhstbyaddr (struct database_dyn *db, int fd, request_header *req,
 	      void *key, uid_t uid)
 {
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.addhstbyaddr: \"%s\""), (char *) key);  
+  }	
   addhstbyX (db, fd, req, key, uid, NULL, NULL);
 }
 
@@ -524,6 +533,9 @@ readdhstbyaddr (struct database_dyn *db, struct hashentry *he,
       .key_len = he->len
     };
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.readdhstbyaddr: \"%s\""), (char *) (db->data + he->key));  
+  }	
   return addhstbyX (db, -1, &req, db->data + he->key, he->owner, he, dh);
 }
 
@@ -532,6 +544,9 @@ void
 addhstbynamev6 (struct database_dyn *db, int fd, request_header *req,
 		void *key, uid_t uid)
 {
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.addhstbyaddr: \"%s\""), (char *) key);  
+  }	
   addhstbyX (db, fd, req, key, uid, NULL, NULL);
 }
 
@@ -546,6 +561,9 @@ readdhstbynamev6 (struct database_dyn *db, struct hashentry *he,
       .key_len = he->len
     };
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.readdhstbyaddr: \"%s\""), (char *) (db->data + he->key));  
+  }	
   return addhstbyX (db, -1, &req, db->data + he->key, he->owner, he, dh);
 }
 
@@ -554,6 +572,9 @@ void
 addhstbyaddrv6 (struct database_dyn *db, int fd, request_header *req,
 		void *key, uid_t uid)
 {
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.addhstbyaddrv6: \"%s\""), (char *) key);  
+  }	
   addhstbyX (db, fd, req, key, uid, NULL, NULL);
 }
 
@@ -568,5 +589,8 @@ readdhstbyaddrv6 (struct database_dyn *db, struct hashentry *he,
       .key_len = he->len
     };
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.readdhstbyaddrv6: \"%s\""), (char *) (db->data + he->key));  
+  }	
   return addhstbyX (db, -1, &req, db->data + he->key, he->owner, he, dh);
 }
