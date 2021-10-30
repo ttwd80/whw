@@ -18,3 +18,16 @@ Sat Oct 30 17:44:41 2021 - 15844: checking for monitored file `/var/db/passwd.db
 
 ==
 who calls "cache_addhst"
+==
+
+
+Sat Oct 30 22:50:19 2021 - 15851: handle_request: request received (Version = 2) from PID 15984
+Sat Oct 30 22:50:19 2021 - 15851: 	GETHOSTBYNAME (www.google.com)
+Sat Oct 30 22:50:19 2021 - 15851: CHECKPOING HSTCACHE.addhstbyname: "www.google.com"
+Sat Oct 30 22:50:19 2021 - 15851: Haven't found "www.google.com" in hosts cache!
+Sat Oct 30 22:50:19 2021 - 15851: CHECKPOING HSTCACHE.addhstbyX: "www.google.com"
+Sat Oct 30 22:50:19 2021 - 15851: CHECKPOING HSTCACHE.addhstbyX #2: "www.google.com"
+Sat Oct 30 22:50:19 2021 - 15851: CHECKPOING HSTCACHE.addhstbyX #3: "www.google.com"
+Sat Oct 30 22:50:19 2021 - 15851: CHECKPOING HSTCACHE.cache_addhst: "www.google.com"
+Sat Oct 30 22:50:19 2021 - 15851: add new entry "www.google.com" of type GETHOSTBYNAME for hosts to cache (first)
+Sat Oct 30 22:50:27 2021 - 15851: checking for monitored file `/var/db/passwd.db': No such file or directory
