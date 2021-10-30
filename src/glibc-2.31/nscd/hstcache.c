@@ -98,6 +98,10 @@ cache_addhst (struct database_dyn *db, int fd, request_header *req,
   bool all_written = true;
   time_t t = time (NULL);
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOING HSTCACHE.cache_addhst: \"%s\""), (char *) key);  
+  }	
+
   /* We allocate all data in one memory block: the iov vector,
      the response header and the dataset itself.  */
   struct dataset
