@@ -1,0 +1,20 @@
+cache_addhst is sometimes not called
+
+when added
+Sat Oct 30 17:55:17 2021 - 15849: handle_request: request received (Version = 2) from PID 15973
+Sat Oct 30 17:55:17 2021 - 15849: 	GETHOSTBYNAME (www.google.com)
+Sat Oct 30 17:55:17 2021 - 15849: CHECKPOING HSTCACHE.addhstbyname: "www.google.com"
+Sat Oct 30 17:55:17 2021 - 15849: Haven't found "www.google.com" in hosts cache!
+Sat Oct 30 17:55:17 2021 - 15849: CHECKPOING HSTCACHE: "www.google.com"
+Sat Oct 30 17:55:17 2021 - 15849: CHECKPOING HSTCACHE.cache_addhst: "www.google.com"
+Sat Oct 30 17:55:17 2021 - 15849: add new entry "www.google.com" of type GETHOSTBYNAME for hosts to cache (first)
+
+Sat Oct 30 17:44:33 2021 - 15844: handle_request: request received (Version = 2) from PID 15969
+Sat Oct 30 17:44:33 2021 - 15844: 	GETHOSTBYNAME (www.google.com)
+Sat Oct 30 17:44:33 2021 - 15844: CHECKPOING HSTCACHE.addhstbyname: "www.google.com"
+Sat Oct 30 17:44:33 2021 - 15844: Haven't found "www.google.com" in hosts cache!
+Sat Oct 30 17:44:33 2021 - 15844: CHECKPOING HSTCACHE: "www.google.com"
+Sat Oct 30 17:44:41 2021 - 15844: checking for monitored file `/var/db/passwd.db': No such file or directory
+
+==
+who calls "cache_addhst"

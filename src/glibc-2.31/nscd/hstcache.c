@@ -454,7 +454,7 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 
       if (he == NULL) {
 	dbg_log (_("Haven't found \"%s\" in hosts cache!"), (char *) str);
-	dbg_log (_("CHECKPOING HSTCACHE: \"%s\""), (char *) key);
+	dbg_log (_("CHECKPOING HSTCACHE.addhstbyX: \"%s\""), (char *) key);
 	}
       else
 	dbg_log (_("Reloading \"%s\" in hosts cache!"), (char *) str);
@@ -462,6 +462,10 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 
   struct scratch_buffer tmpbuf;
   scratch_buffer_init (&tmpbuf);
+
+  if (__glibc_unlikely (debug_level > 0)) {
+	  dbg_log (_("CHECKPOING HSTCACHE.addhstbyX #2: \"%s\""), (char *) key);
+  }
 
   while (lookup (req->type, key, &resultbuf,
 		 tmpbuf.data, tmpbuf.length, &hst, &ttl) != 0
@@ -481,6 +485,10 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 	break;
       }
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	  dbg_log (_("CHECKPOING HSTCACHE.addhstbyX #3: \"%s\""), (char *) key);
+  }
+  
   time_t timeout = cache_addhst (db, fd, req, key, hst, uid, he, dh,
 				 h_errno == TRY_AGAIN ? errval : 0, ttl);
   scratch_buffer_free (&tmpbuf);
