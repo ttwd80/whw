@@ -14,9 +14,9 @@ echo 'sed --in-place -e "/^.*debug-level/s/0/10/" -e "/^#.*reload-count.*[0-9]$/
 echo 'cat /etc/nscd.conf | grep -E "debug-level|reload-count|logfile" | grep -v "^#"' | docker exec -i docker-client-1 su -
 
 # install nscd from tarball
-echo 'wget https://ftp.gnu.org/gnu/glibc/glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
+echo 'wget -q https://ftp.gnu.org/gnu/glibc/glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
 echo 'tar -C /usr/local/src -x -f glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
-echo 'mkdir /glibc-build && cd /glibc-build && /usr/local/src/configure --prefix=/glibc-2.31' | docker exec -i docker-client-1 su -
+echo 'mkdir /glibc-build && cd /glibc-build && /usr/local/src/glibc-2.31/configure --prefix=/glibc-2.31' | docker exec -i docker-client-1 su -
 echo 'cd /glibc-build && make && make install' | docker exec -i docker-client-1 su -
 echo 'echo old nscd && ls -l $(which nscd) && ls -l /glibc-build/nscd/nscd && cat /glibc-build/nscd/nscd > $(which nscd) && ls -l $(which nscd)' | docker exec -i docker-client-1 su -
 
