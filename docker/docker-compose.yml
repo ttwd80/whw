@@ -9,6 +9,7 @@ services:
       - ./client/scripts:/root/scripts
       - ./client/selenium:/home/ubuntu/selenium
       - /glibc-build:/glibc-build
+      - ../src:/code/src
     tty: true
     stdin_open: true
     cap_add:
