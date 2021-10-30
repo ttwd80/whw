@@ -197,7 +197,7 @@ jobs:
           path: ${{ env.CLIENT_DEB_CACHE_DIR }}
           key: cache-deb-${{ steps.google-chrome-deb-hash.outputs.hash }}
       - name: Restore Cache glibc
-        id: restore-cache
+        id: restore-cache-glibc
         uses: actions/cache@v2
         with:
           path: /glibc-build
