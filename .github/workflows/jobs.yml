@@ -179,8 +179,10 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Prepare cache directory
+      - name: Prepare deb cache directory
         run: mkdir ${CLIENT_DEB_CACHE_DIR}
+      - name: Prepare glibc cache directory
+        run: mkdir /glibc-build
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
@@ -188,12 +190,18 @@ jobs:
       - name: Get Google Chrome deb hash(last modified date)
         id: google-chrome-deb-hash
         run: sh ./scripts/client-deb-cache-key.sh
-      - name: Restore Cache
+      - name: Restore Cache Deb
         id: restore-cache
         uses: actions/cache@v2
         with:
           path: ${{ env.CLIENT_DEB_CACHE_DIR }}
           key: cache-deb-${{ steps.google-chrome-deb-hash.outputs.hash }}
+      - name: Restore Cache glibc
+        id: restore-cache
+        uses: actions/cache@v2
+        with:
+          path: /glibc-build
+          key: cache-glibc-2-31
       - name: Setting dependency cache
         run: sh ./scripts/client-setup.sh
       - name: Init client
