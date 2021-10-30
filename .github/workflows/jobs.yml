@@ -182,7 +182,7 @@ jobs:
       - name: Prepare deb cache directory
         run: mkdir ${CLIENT_DEB_CACHE_DIR}
       - name: Prepare glibc cache directory
-        run: mkdir /glibc-build
+        run: sudo mkdir /glibc-build && sudo chown runner /glibc-build
       - name: docker-compose up
         run: scripts/docker-compose-up.sh
       - name: Bootstrap client
