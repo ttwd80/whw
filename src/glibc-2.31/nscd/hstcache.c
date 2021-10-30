@@ -448,8 +448,10 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 	str = inet_ntop (req->type == GETHOSTBYADDR ? AF_INET : AF_INET6,
 			 key, buf, sizeof (buf));
 
-      if (he == NULL)
+      if (he == NULL) {
 	dbg_log (_("Haven't found \"%s\" in hosts cache!"), (char *) str);
+	dbg_log (_("CHECKPOING HSTCACHE"), (char *) key);
+	}
       else
 	dbg_log (_("Reloading \"%s\" in hosts cache!"), (char *) str);
     }

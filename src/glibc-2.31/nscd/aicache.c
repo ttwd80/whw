@@ -78,8 +78,10 @@ addhstaiX (struct database_dyn *db, int fd, request_header *req,
 
   if (__glibc_unlikely (debug_level > 0))
     {
-      if (he == NULL)
+      if (he == NULL) {
 	dbg_log (_("Haven't found \"%s\" in hosts cache!"), (char *) key);
+	dbg_log (_("CHECKPOING AICACHE"), (char *) key);
+	}
       else
 	dbg_log (_("Reloading \"%s\" in hosts cache!"), (char *) key);
     }
