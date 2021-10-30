@@ -19,7 +19,7 @@ echo 'DEBIAN_FRONTEND=noninteractive apt-get install -qq python3 gawk bison flex
 echo 'wget -q https://ftp.gnu.org/gnu/glibc/glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
 echo 'tar -C /usr/local/src -x -f glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
 echo 'mkdir -p /glibc-build && cd /glibc-build && /usr/local/src/glibc-2.31/configure --prefix=/glibc-2.31' | docker exec -i docker-client-1 su -
-echo 'cd /glibc-build && make && make install' | docker exec -i docker-client-1 su -
+echo 'cd /glibc-build && (make > /dev/null) && make install' | docker exec -i docker-client-1 su -
 echo 'echo old nscd && ls -l $(which nscd) && ls -l /glibc-build/nscd/nscd && cat /glibc-build/nscd/nscd > $(which nscd) && ls -l $(which nscd)' | docker exec -i docker-client-1 su -
 
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
