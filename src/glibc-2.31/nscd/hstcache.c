@@ -476,16 +476,11 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 	break;
       }
 
-  if (__glibc_unlikely (debug_level > 0)) {
-	  if (h_errno == TRY_AGAIN) {
-		  dbg_log (_("CHECKPOINT #0x02 post while: \"%s\""), (char *) key);  
-	  } else {
-		  dbg_log (_("CHECKPOINT #0x03 post while: \"%s\""), (char *) key);  
-	  }
-  }
-  
   time_t timeout = cache_addhst (db, fd, req, key, hst, uid, he, dh,
 				 h_errno == TRY_AGAIN ? errval : 0, ttl);
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOINT #0x04 post cache_addhst: \"%s\""), (char *) key);  
+  }
   scratch_buffer_free (&tmpbuf);
   return timeout;
 }
