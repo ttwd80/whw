@@ -218,9 +218,9 @@ cache_addhst (struct database_dyn *db, int fd, request_header *req,
 
 	if (__glibc_unlikely (debug_level > 0)) {
 		if (he != NULL) {
-			dbg_log (_("CHECKPOINT #0x08 h_addr_list_cnt == %d: \"%s\""), h_addr_list_cnt, (char *) key);
+			dbg_log (_("CHECKPOINT #0x08 h_addr_list_cnt == %lu: \"%s\""), h_addr_list_cnt, (char *) key);
 		} else {
-			dbg_log (_("CHECKPOINT #0x09 h_addr_list_cnt == %d: \"%s\""), h_addr_list_cnt, (char *) key);
+			dbg_log (_("CHECKPOINT #0x09 h_addr_list_cnt == %lu: \"%s\""), h_addr_list_cnt, (char *) key);
 		}
 	}
 		
