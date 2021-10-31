@@ -458,9 +458,6 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
   struct scratch_buffer tmpbuf;
   scratch_buffer_init (&tmpbuf);
 
-  if (__glibc_unlikely (debug_level > 0)) {
-	dbg_log (_("CHECKPOINT #0x00 pre while lookup: \"%s\""), (char *) key);  
-  }
   while (lookup (req->type, key, &resultbuf,
 		 tmpbuf.data, tmpbuf.length, &hst, &ttl) != 0
 	 && h_errno == NETDB_INTERNAL
@@ -479,6 +476,14 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 	break;
       }
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	  if (h_errno == TRY_AGAIN) {
+		  dbg_log (_("CHECKPOINT #0x02 post while: \"%s\""), (char *) key);  
+	  } else {
+		  dbg_log (_("CHECKPOINT #0x03 post while: \"%s\""), (char *) key);  
+	  }
+  }
+  
   time_t timeout = cache_addhst (db, fd, req, key, hst, uid, he, dh,
 				 h_errno == TRY_AGAIN ? errval : 0, ttl);
   scratch_buffer_free (&tmpbuf);
