@@ -450,7 +450,6 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 
       if (he == NULL) {
 	dbg_log (_("Haven't found \"%s\" in hosts cache!"), (char *) str);
-	dbg_log (_("CHECKPOING HSTCACHE: \"%s\""), (char *) key);
 	}
       else
 	dbg_log (_("Reloading \"%s\" in hosts cache!"), (char *) str);
@@ -459,6 +458,9 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
   struct scratch_buffer tmpbuf;
   scratch_buffer_init (&tmpbuf);
 
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOINT #0x00 pre while lookup: \"%s\""), (char *) key);  
+  }
   while (lookup (req->type, key, &resultbuf,
 		 tmpbuf.data, tmpbuf.length, &hst, &ttl) != 0
 	 && h_errno == NETDB_INTERNAL
