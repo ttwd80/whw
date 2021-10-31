@@ -214,7 +214,7 @@ cache_addhst (struct database_dyn *db, int fd, request_header *req,
       /* Determine the number of addresses.  */
       h_addr_list_cnt = 0;
       while (hst->h_addr_list[h_addr_list_cnt] != NULL) {
-		dbg_log (_("CHECKPOINT #0x0a %lu: [%d.%d.%d.%d]: \"%s\""), h_addr_list_cnt, 
+		dbg_log (_("CHECKPOINT #0x0b %lu: [%u.%u.%u.%u]: \"%s\""), h_addr_list_cnt, 
           (int) hst->h_addr_list[h_addr_list_cnt][0],
 		  (int) hst->h_addr_list[h_addr_list_cnt][1],
 		  (int) hst->h_addr_list[h_addr_list_cnt][2],

@@ -14,8 +14,7 @@ echo 'sed --in-place -e "/^.*debug-level/s/0/2/" -e "/^#.*reload-count.*[0-9]$/s
 echo 'cat /etc/nscd.conf | grep -E "debug-level|reload-count|logfile" | grep -v "^#"' | docker exec -i docker-client-1 su -
 
 # install nscd from tarball
-echo 'uname -a && echo dig result && dig www.google.com' | docker exec -i docker-client-1 su -
-echo 'DEBIAN_FRONTEND=noninteractive apt-get install -qq python3 gawk bison flex binutils build-essential texinfo gettext' | docker exec -i docker-client-1 su -
+echo 'DEBIAN_FRONTEND=noninteractive apt-get install -qq python3 gawk bison flex binutils build-essential texinfo gettext bind9-dnsutils' | docker exec -i docker-client-1 su -
 echo 'wget -q https://ftp.gnu.org/gnu/glibc/glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
 echo 'tar -C /usr/local/src -x -f glibc-2.31.tar.gz' | docker exec -i docker-client-1 su -
 echo 'cp /code/src/glibc-2.31/nscd/* /usr/local/src/glibc-2.31/nscd/' | docker exec -i docker-client-1 su -
@@ -23,6 +22,7 @@ echo 'cd /glibc-build && /usr/local/src/glibc-2.31/configure --prefix=/glibc-2.3
 echo 'cd /glibc-build && (make > /dev/null) && (make install > /dev/null)' | docker exec -i docker-client-1 su -
 echo 'echo old nscd && ls -l $(which nscd) && ls -l /glibc-build/nscd/nscd && cat /glibc-build/nscd/nscd > $(which nscd) && ls -l $(which nscd)' | docker exec -i docker-client-1 su -
 echo 'mkdir -p /var/db/nscd && ldd $(which nscd)' | docker exec -i docker-client-1 su -
+echo 'uname -a && echo dig result && dig www.google.com' | docker exec -it docker-client-1 su -
 
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
