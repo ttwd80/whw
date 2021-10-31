@@ -22,7 +22,7 @@ echo 'cd /glibc-build && /usr/local/src/glibc-2.31/configure --prefix=/glibc-2.3
 echo 'cd /glibc-build && (make > /dev/null) && (make install > /dev/null)' | docker exec -i docker-client-1 su -
 echo 'echo old nscd && ls -l $(which nscd) && ls -l /glibc-build/nscd/nscd && cat /glibc-build/nscd/nscd > $(which nscd) && ls -l $(which nscd)' | docker exec -i docker-client-1 su -
 echo 'mkdir -p /var/db/nscd && ldd $(which nscd)' | docker exec -i docker-client-1 su -
-echo 'uname -a && echo dig result && dig www.google.com' | docker exec -it docker-client-1 su -
+echo 'uname -a && echo dig result && dig www.google.com' | docker exec -i docker-client-1 su -
 
 echo '/etc/init.d/nscd start'  | docker exec -i docker-client-1 su -
 sleep 5
