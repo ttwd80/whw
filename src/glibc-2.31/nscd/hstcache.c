@@ -95,6 +95,9 @@ cache_addhst (struct database_dyn *db, int fd, request_header *req,
 	      struct hashentry *const he, struct datahead *dh, int errval,
 	      int32_t ttl)
 {
+  if (__glibc_unlikely (debug_level > 0)) {
+	dbg_log (_("CHECKPOINT #0x05 in cache_addhst: \"%s\""), (char *) key);  
+  }
   bool all_written = true;
   time_t t = time (NULL);
 
@@ -478,9 +481,6 @@ addhstbyX (struct database_dyn *db, int fd, request_header *req,
 
   time_t timeout = cache_addhst (db, fd, req, key, hst, uid, he, dh,
 				 h_errno == TRY_AGAIN ? errval : 0, ttl);
-  if (__glibc_unlikely (debug_level > 0)) {
-	dbg_log (_("CHECKPOINT #0x04 post cache_addhst: \"%s\""), (char *) key);  
-  }
   scratch_buffer_free (&tmpbuf);
   return timeout;
 }
