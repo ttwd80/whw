@@ -110,14 +110,6 @@ cache_addhst (struct database_dyn *db, int fd, request_header *req,
   assert (offsetof (struct dataset, resp) == offsetof (struct datahead, data));
 
   time_t timeout = MAX_TIMEOUT_VALUE;
-  if (__glibc_unlikely (debug_level > 0)) {
-	  if (hst == NULL) {
-		  dbg_log (_("CHECKPOINT #0x06 hst == NULL: \"%s\""), (char *) key);  
-	  } else {
-		  dbg_log (_("CHECKPOINT #0x07 hst != NULL: \"%s\""), (char *) key);  
-	  }
-  }
-  	
 
   if (hst == NULL)
     {
@@ -224,6 +216,14 @@ cache_addhst (struct database_dyn *db, int fd, request_header *req,
       while (hst->h_addr_list[h_addr_list_cnt] != NULL)
 	++h_addr_list_cnt;
 
+	if (__glibc_unlikely (debug_level > 0)) {
+		if (he != NULL) {
+			dbg_log (_("CHECKPOINT #0x08 h_addr_list_cnt == %d: \"%s\""), h_addr_list_cnt, (char *) key);
+		} else {
+			dbg_log (_("CHECKPOINT #0x09 h_addr_list_cnt == %d: \"%s\""), h_addr_list_cnt, (char *) key);
+		}
+	}
+		
       if (h_addr_list_cnt == 0)
 	/* Invalid entry.  */
 	return MAX_TIMEOUT_VALUE;
